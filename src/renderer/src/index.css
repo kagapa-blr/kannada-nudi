@@ -1,0 +1,70 @@
+/* src/index.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.editor-container {
+  @apply flex flex-col items-center w-full max-w-3xl mx-auto p-5 relative;
+}
+
+.editor-toolbar-container {
+  @apply fixed top-0 left-0 w-full bg-white p-3 z-10 border-b border-gray-200 shadow-md;
+}
+
+.editor-wrapper {
+  @apply w-full flex-1 mt-24; /* Use flex-1 to allow the editor to take up the remaining space */
+  min-height: calc(100vh - 80px); /* Ensures enough height for the editor */
+  padding-top: 80px; /* Adds space for the fixed toolbar */
+  position: relative;
+}
+
+.editor-pages {
+  @apply w-full max-h-[calc(100vh-80px)] overflow-y-auto;
+}
+
+.quill-editor {
+  @apply w-full bg-white shadow-md mb-5;
+}
+
+.ql-container {
+  @apply border-0 !important; /* Remove the border from the container */
+}
+
+.ql-editor {
+  @apply border-0 !important;
+  min-height: calc(100vh - 80px); /* Ensure enough height for the editor */
+  padding: 0;
+}
+
+.ql-editor p:empty {
+  display: none;
+}
+
+.page-separator {
+  @apply w-full h-[4px] bg-blue-700 my-10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.page {
+  @apply w-full border-4 border-blue-600 bg-white shadow-xl p-5 mb-10 relative;
+}
+
+.page-shadow {
+  @apply w-full border-4 border-blue-600 bg-white shadow-lg p-5 mb-10 relative;
+}
+
+/* Remove border and extra styles from the snow theme (ql-snow) */
+.ql-snow .ql-editor {
+  @apply border-0 !important;
+}
+
+/* You can add more custom fonts here as needed */
+.ql-redunderline {
+  text-decoration: 3px solid red underline;
+}
+/* Set the default font for the Quill editor */
+.ql-editor {
+  font-family: "NudiParijatha", sans-serif; /* Fallback to sans-serif */
+  font-size: 16px; /* Set default font size */
+}
