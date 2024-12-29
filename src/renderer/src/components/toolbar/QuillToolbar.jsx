@@ -104,8 +104,10 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
         <button className="ql-open" title={ICON_LABELS_KANNADA.open}>
           <FolderOpenIcon />
         </button>
-        <button className="ql-save" title={ICON_LABELS_KANNADA.save}>
-          <SaveIcon fontSize="large" />
+      </span>
+      <span className="ql-formats">
+        <button className="ql-save " title={ICON_LABELS_KANNADA.save}>
+          <SaveIcon style={{ fontSize: 40 }} />
         </button>
       </span>
 
