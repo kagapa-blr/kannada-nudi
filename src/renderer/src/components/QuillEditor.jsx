@@ -28,26 +28,59 @@ const QuillEditor = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true) // For loading state
   const [bloomFilter, setBloomFilter] = useState(null) // State to store BloomFilter
-  const [currentFilePath, setCurrentFilePath] = useState('')
   const [currentWorkingDir, setCurrentWorkingDir] = useState('')
 
   const specialChars = '!@#$%^&*()_+[]{}|;:\',.<>/?~-=\\"'
   const [symSpell, setSymSpell] = useState(null)
 
   useEffect(() => {
-    window.electronAPI
-      .getCwd()
-      .then((cwd) => {
+    const fetchData = async () => {
+      try {
+        const cwd = await window.electronAPI.getCwd()
         if (cwd && cwd.trim()) {
-          setCurrentWorkingDir(cwd) // Set the state once we get the value
+          setCurrentWorkingDir(cwd) // Set the current working directory
         }
-        setIsLoading(false) // Once the cwd is fetched, set loading to false
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Error fetching current working directory:', error)
-        setIsLoading(false) // If there is an error, stop loading
-      })
-  }, [])
+        setIsLoading(false) // Stop loading in case of an error
+      }
+    }
+
+    fetchData()
+  }, []) // Empty dependency array, runs only once when component mounts
+
+  useEffect(() => {
+    if (!currentWorkingDir) return // If no working directory, skip the logic
+
+    const loadFilterAndDict = async () => {
+      const bloomDictPath = `${currentWorkingDir}/${bloomCollection}`
+      const symspellDictPath = `${currentWorkingDir}/${symspellDict}`
+
+      const size = 100000 // Define the size of the Bloom Filter
+      const errorRate = 0.001 // Define the error rate
+
+      try {
+        console.log(`Starting to load Bloom Filter from: ${bloomDictPath}`)
+        console.log(`Expected Bloom Filter size: ${size}, Error rate: ${errorRate}`)
+
+        const filter = await loadBloomFilter(bloomDictPath, size, errorRate)
+        setBloomFilter(filter) // Set the BloomFilter in state
+        console.log('Bloom Filter loaded successfully.')
+
+        // Load SymSpell service
+        const symSpellService = new SymSpellService()
+        await symSpellService.loadSymSpell(symSpellService, symspellDictPath)
+        setSymSpell(symSpellService)
+        console.log('Successfully loaded SymSpell service from:', symspellDictPath)
+        setIsLoading(false)
+      } catch (err) {
+        console.error('Failed to load resources:', err)
+        setError('Failed to load required resources')
+      }
+    }
+
+    loadFilterAndDict()
+  }, [currentWorkingDir]) // Re-run when currentWorkingDir changes
 
   // Append file handler (takes file path and content to append)
   const appendToFile = async (filePath, contentToAppend) => {
@@ -63,44 +96,6 @@ const QuillEditor = () => {
       alert('Please provide both the file path and content to append.')
     }
   }
-  useEffect(() => {
-    if (currentWorkingDir) {
-      // Adjust paths based on the given structure
-      const bloomDictPath = `${currentWorkingDir}/${bloomCollection}`
-      const symspellDictPath = `${currentWorkingDir}/${symspellDict}`
-
-      const size = 100000 // Define the size of the Bloom Filter
-      const errorRate = 0.001 // Define the error rate
-
-      console.log(`Starting to load Bloom Filter from: ${bloomDictPath}`)
-      console.log(`Expected Bloom Filter size: ${size}, Error rate: ${errorRate}`)
-
-      loadBloomFilter(bloomDictPath, size, errorRate)
-        .then((filter) => {
-          console.log('Bloom Filter loaded successfully.')
-          setBloomFilter(filter) // Set the BloomFilter in state
-        })
-        .catch((err) => {
-          console.error('Failed to load Bloom Filter. Error details:', err)
-          setError('Failed to load Bloom Filter') // Handle error if needed
-        })
-
-      const loadSymSpell = async () => {
-        const symSpellService = new SymSpellService()
-        try {
-          await symSpellService.loadSymSpell(symSpellService, symspellDictPath)
-          setSymSpell(symSpellService)
-          console.log('Successfully loaded SymSpell service from:', symspellDictPath)
-        } catch (error) {
-          console.error('Error loading dictionary:', error)
-          setError('Failed to load SymSpell') // Handle error if needed
-        }
-      }
-
-      loadSymSpell()
-    }
-  }, [currentWorkingDir]) // Re-run when currentWorkingDir changes
-
   useEffect(() => {
     paginateContent()
   }, [content, pageSize])
