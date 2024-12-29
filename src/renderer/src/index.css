@@ -4,67 +4,81 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Container for the editor */
 .editor-container {
   @apply flex flex-col items-center w-full max-w-3xl mx-auto p-5 relative;
 }
 
+/* Toolbar container with fixed positioning */
 .editor-toolbar-container {
   @apply fixed top-0 left-0 w-full bg-white p-3 z-10 border-b border-gray-200 shadow-md;
 }
 
+/* Main editor wrapper */
 .editor-wrapper {
-  @apply w-full flex-1 mt-24; /* Use flex-1 to allow the editor to take up the remaining space */
+  @apply w-full flex-1 mt-24 relative;
   min-height: calc(100vh - 80px); /* Ensures enough height for the editor */
-  padding-top: 80px; /* Adds space for the fixed toolbar */
-  position: relative;
+  padding-top: 80px; /* Space for the fixed toolbar */
 }
 
+/* Pages container with scrolling enabled */
 .editor-pages {
   @apply w-full max-h-[calc(100vh-80px)] overflow-y-auto;
 }
 
+/* Editor styling */
 .quill-editor {
   @apply w-full bg-white shadow-md mb-5;
 }
 
-.ql-container {
-  @apply border-0 !important; /* Remove the border from the container */
-}
-
+/* Remove borders from Quill editor containers */
+.ql-container,
 .ql-editor {
   @apply border-0 !important;
-  min-height: calc(100vh - 80px); /* Ensure enough height for the editor */
-  padding: 0;
 }
 
+/* Additional Quill editor styling */
+.ql-editor {
+  font-family: 'NudiParijatha', sans-serif; /* Kannada font with fallback */
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: justify;
+  min-height: calc(100vh - 120px); /* Height for content */
+  padding: 20px; /* Inner padding */
+  border-radius: 4px; /* Optional: Rounded corners */
+  overflow-wrap: break-word; /* Handle long words */
+  background-color: transparent; /* Transparent background */
+  border: none; /* Remove internal border */
+}
+
+/* Hide empty paragraphs in the editor */
 .ql-editor p:empty {
   display: none;
 }
 
+/* Separator styling between pages */
 .page-separator {
   @apply w-full h-[4px] bg-blue-700 my-10;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.page {
-  @apply w-full border-4 border-blue-600 bg-white shadow-xl p-5 mb-10 relative;
-}
-
+/* Page layout and shadow */
+.page,
 .page-shadow {
   @apply w-full border-4 border-blue-600 bg-white shadow-lg p-5 mb-10 relative;
 }
 
-/* Remove border and extra styles from the snow theme (ql-snow) */
-.ql-snow .ql-editor {
-  @apply border-0 !important;
+/* Specialized styling for the page-shadow */
+.page-shadow {
+  @apply shadow-xl; /* Additional shadow intensity */
 }
 
-/* You can add more custom fonts here as needed */
+/* Custom underline for text */
 .ql-redunderline {
-  text-decoration: 3px solid red underline;
+  text-decoration: underline 3px solid red;
 }
-/* Set the default font for the Quill editor */
-.ql-editor {
-  font-family: "NudiParijatha", sans-serif; /* Fallback to sans-serif */
-  font-size: 16px; /* Set default font size */
+
+/* Remove default Quill Snow theme styles */
+.ql-snow .ql-editor {
+  @apply border-0 !important;
 }
