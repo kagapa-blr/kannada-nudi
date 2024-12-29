@@ -1,9 +1,4 @@
 import { PAGE_SIZES } from "./pageSizes";
-import { getWrongWords } from "../spellcheck/bloomFilter";
-import {
-    underlineWordInEditor,
-
-} from "../services/editorService";
 
 
 // Undo and redo functions for Custom Toolbar
@@ -16,24 +11,27 @@ function redoChange() {
 }
 
 
-export const openFile = () => {
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.accept = ".txt";
-    fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const content = event.target.result;
-                const quill = document.querySelector(".ql-editor"); // Get the Quill editor instance
-                quill.innerHTML = content; // Set the file content to the editor
-            };
-            reader.readAsText(file);
+// Renderer process: src/preload/index.js
+
+export const openFile = async () => {
+    try {
+        // Call the Electron API to open a file
+        const result = await window.electronAPI.openFile();
+
+        // Check if an error is returned from the Electron API
+        if (result && result.error) {
+            throw new Error(result.error);
         }
-    };
-    fileInput.click();
+
+        // Assuming 'result' contains the file content, load it into the Quill editor
+        const quill = document.querySelector('.ql-editor'); // Get the Quill editor instance
+        quill.innerHTML = result.content; // Set the file content to the editor
+    } catch (error) {
+        console.error('Error opening file:', error);
+        alert('Failed to open file');
+    }
 };
+
 
 const saveFile = () => {
     const content = document.querySelector(".ql-editor").innerHTML; // Get the editor content
