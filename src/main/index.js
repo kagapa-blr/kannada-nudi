@@ -2,11 +2,12 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import os from 'os';
 import { join } from 'path';
 import { setupFileOperations } from './lib/fileops.js';
-
+//import icon from '../../resources/logo.jpg'
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
+    //...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,
