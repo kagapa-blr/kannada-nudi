@@ -1,104 +1,102 @@
-import React, { useState } from "react";
-import { PAGE_SIZES } from "../../constants/pageSizes";
-import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
-import UndoIcon from "@mui/icons-material/Undo";
-import RedoIcon from "@mui/icons-material/Redo";
-import FolderOpenIcon from "@mui/icons-material/FolderOpen";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import { Quill } from "react-quill-new";
-import { FONT_SIZES, FONTS } from "../../constants/Nudifonts";
-import CustomSizeDialog from "./CustomSizeDialog";
-import QuillResizeImage from "quill-resize-image";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import FolderOpenIcon from '@mui/icons-material/FolderOpen'
+import RedoIcon from '@mui/icons-material/Redo'
+import RefreshIcon from '@mui/icons-material/Refresh'
+import SaveIcon from '@mui/icons-material/Save'
+import UndoIcon from '@mui/icons-material/Undo'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import QuillResizeImage from 'quill-resize-image'
+import React, { useState } from 'react'
+import { Quill } from 'react-quill-new'
+import { ICON_LABELS_KANNADA } from '../../constants/formats'
+import { FONT_SIZES, FONTS } from '../../constants/Nudifonts'
+import { PAGE_SIZES } from '../../constants/pageSizes'
+import { underlineWordInEditor } from '../../services/editorService'
+import { getWrongWords } from '../../spellcheck/bloomFilter'
+import CustomSizeDialog from './CustomSizeDialog'
 
-import { getWrongWords } from "../../spellcheck/bloomFilter";
-import { underlineWordInEditor } from "../../services/editorService";
+const Size = Quill.import('formats/size')
+Size.whitelist = FONT_SIZES
+Quill.register(Size, true)
 
-const Size = Quill.import("formats/size");
-Size.whitelist = FONT_SIZES;
-Quill.register(Size, true);
-import { ICON_LABELS_KANNADA } from "../../constants/formats";
+export const Font = Quill.import('formats/font')
+Font.whitelist = FONTS
+Quill.register(Font, true)
 
-export const Font = Quill.import("formats/font");
-Font.whitelist = FONTS;
-Quill.register(Font, true);
-
-Quill.register("modules/resize", QuillResizeImage);
+Quill.register('modules/resize', QuillResizeImage)
 
 export const QuillToolbar = ({ quillRef, setPageSize }) => {
-  const [pageSizeOption, setPageSizeOption] = useState("A4");
-  const [prevPageSize, setPrevPageSize] = useState("A4");
-  const [openModal, setOpenModal] = useState(false);
-  const [fontOption, setFontOption] = useState(FONTS[0]);
-  const [sizeOption, setSizeOption] = useState(FONT_SIZES[2]);
- 
+  const [pageSizeOption, setPageSizeOption] = useState('A4')
+  const [prevPageSize, setPrevPageSize] = useState('A4')
+  const [openModal, setOpenModal] = useState(false)
+  const [fontOption, setFontOption] = useState(FONTS[0])
+  const [sizeOption, setSizeOption] = useState(FONT_SIZES[2])
 
   const handlePageSizeChange = (e) => {
-    const selectedSize = e.target.value;
-    setPageSizeOption(selectedSize);
-    if (selectedSize === "Custom") {
-      setPrevPageSize(pageSizeOption);
-      setOpenModal(true);
+    const selectedSize = e.target.value
+    setPageSizeOption(selectedSize)
+    if (selectedSize === 'Custom') {
+      setPrevPageSize(pageSizeOption)
+      setOpenModal(true)
     } else {
-      const size = PAGE_SIZES[selectedSize];
-      setPageSize(size);
+      const size = PAGE_SIZES[selectedSize]
+      setPageSize(size)
     }
-  };
+  }
 
   const handleFontChange = (e) => {
-    const selectedFont = e.target.value;
-    setFontOption(selectedFont);
-    const editor = quillRef?.current.getEditor();
+    const selectedFont = e.target.value
+    setFontOption(selectedFont)
+    const editor = quillRef?.current.getEditor()
     if (editor) {
-      editor.format("font", selectedFont);
+      editor.format('font', selectedFont)
     }
-  };
+  }
 
   const handleSizeChange = (e) => {
-    const selectedSize = e.target.value;
-    setSizeOption(selectedSize);
-    const editor = quillRef?.current?.getEditor();
+    const selectedSize = e.target.value
+    setSizeOption(selectedSize)
+    const editor = quillRef?.current?.getEditor()
     if (editor) {
-      editor.format("size", selectedSize);
+      editor.format('size', selectedSize)
     }
-  };
+  }
 
   const applyCustomSize = (customSize) => {
     if (customSize.width && customSize.height) {
       setPageSize({
         width: customSize.width,
-        height: customSize.height,
-      });
-      setOpenModal(false);
+        height: customSize.height
+      })
+      setOpenModal(false)
     }
-  };
+  }
 
   const refreshButtonhandle = async () => {
     if (!bloomFilter) {
-      console.error("BloomFilter not initialized");
-      return;
+      console.error('BloomFilter not initialized')
+      return
     }
 
     try {
-      const quill = quillRef.current?.getEditor();
-      const wrongWords = await getWrongWords(quill, bloomFilter);
+      const quill = quillRef.current?.getEditor()
+      const wrongWords = await getWrongWords(quill, bloomFilter)
       if (wrongWords.length == 0) {
-        console.log("No Wrong Words to correct");
-        return;
+        console.log('No Wrong Words to correct')
+        return
       }
       if (wrongWords) {
         // Underline the wrong words in the editor
-        wrongWords.forEach((word) => underlineWordInEditor(quill, word));
+        wrongWords.forEach((word) => underlineWordInEditor(quill, word))
       }
     } catch (error) {
-      console.error("Error during refresh:", error);
+      console.error('Error during refresh:', error)
     }
-  };
+  }
 
   const handleCloseModal = () => {
-    setPageSizeOption(prevPageSize);
-    setOpenModal(false);
-  };
+    setPageSizeOption(prevPageSize)
+    setOpenModal(false)
+  }
 
   return (
     <div id="toolbar" className="flex flex-wrap gap-4 p-4">
@@ -107,7 +105,7 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
           <FolderOpenIcon />
         </button>
         <button className="ql-save" title={ICON_LABELS_KANNADA.save}>
-          <SaveAltIcon />
+          <SaveIcon fontSize="large" />
         </button>
       </span>
 
@@ -138,11 +136,7 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
           ))}
         </select>
 
-        <select
-          className="ql-header"
-          defaultValue="3"
-          title={ICON_LABELS_KANNADA.headline}
-        >
+        <select className="ql-header" defaultValue="3" title={ICON_LABELS_KANNADA.headline}>
           <option value="1">Heading</option>
           <option value="2">Subheading</option>
           <option value="3">Normal</option>
@@ -151,61 +145,25 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
       <span className="ql-formats">
         <button className="ql-bold" title={ICON_LABELS_KANNADA.bold} />
         <button className="ql-italic" title={ICON_LABELS_KANNADA.italic} />
-        <button
-          className="ql-underline"
-          title={ICON_LABELS_KANNADA.underline}
-        />
+        <button className="ql-underline" title={ICON_LABELS_KANNADA.underline} />
         <button className="ql-strike" title={ICON_LABELS_KANNADA.strike} />
       </span>
       <span className="ql-formats">
-        <button
-          className="ql-list"
-          value="ordered"
-          title={ICON_LABELS_KANNADA.listOrdered}
-        />
-        <button
-          className="ql-list"
-          value="bullet"
-          title={ICON_LABELS_KANNADA.listBullet}
-        />
-        <button
-          className="ql-indent"
-          value="-1"
-          title={ICON_LABELS_KANNADA.indentDecrease}
-        />
-        <button
-          className="ql-indent"
-          value="+1"
-          title={ICON_LABELS_KANNADA.indentIncrease}
-        />
+        <button className="ql-list" value="ordered" title={ICON_LABELS_KANNADA.listOrdered} />
+        <button className="ql-list" value="bullet" title={ICON_LABELS_KANNADA.listBullet} />
+        <button className="ql-indent" value="-1" title={ICON_LABELS_KANNADA.indentDecrease} />
+        <button className="ql-indent" value="+1" title={ICON_LABELS_KANNADA.indentIncrease} />
       </span>
       <span className="ql-formats">
-        <button
-          className="ql-script"
-          value="super"
-          title={ICON_LABELS_KANNADA.superscript}
-        />
-        <button
-          className="ql-script"
-          value="sub"
-          title={ICON_LABELS_KANNADA.subscript}
-        />
-        <button
-          className="ql-blockquote"
-          title={ICON_LABELS_KANNADA.blockquote}
-        />
-        <button
-          className="ql-direction"
-          title={ICON_LABELS_KANNADA.direction}
-        />
+        <button className="ql-script" value="super" title={ICON_LABELS_KANNADA.superscript} />
+        <button className="ql-script" value="sub" title={ICON_LABELS_KANNADA.subscript} />
+        <button className="ql-blockquote" title={ICON_LABELS_KANNADA.blockquote} />
+        <button className="ql-direction" title={ICON_LABELS_KANNADA.direction} />
       </span>
       <span className="ql-formats">
         <select className="ql-align" title={ICON_LABELS_KANNADA.align} />
         <select className="ql-color" title={ICON_LABELS_KANNADA.color} />
-        <select
-          className="ql-background"
-          title={ICON_LABELS_KANNADA.background}
-        />
+        <select className="ql-background" title={ICON_LABELS_KANNADA.background} />
       </span>
       <span className="ql-formats">
         <button className="ql-link" title={ICON_LABELS_KANNADA.link} />
@@ -251,13 +209,9 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
         </button>
       </span>
 
-      <CustomSizeDialog
-        open={openModal}
-        onClose={handleCloseModal}
-        onApply={applyCustomSize}
-      />
+      <CustomSizeDialog open={openModal} onClose={handleCloseModal} onApply={applyCustomSize} />
     </div>
-  );
-};
+  )
+}
 
-export default QuillToolbar;
+export default QuillToolbar
