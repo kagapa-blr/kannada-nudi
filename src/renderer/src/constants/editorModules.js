@@ -45,9 +45,11 @@ export const modules = {
             open: openFile,
             // Save file handler
             save: saveFile,
-            saveAs: saveFileAs
-
-
+            // Save as handler (passing content from Quill editor)
+            saveAs: function () {
+                const content = this.quill.root.innerHTML;  // Get the HTML content from the editor
+                saveFileAs(content);  // Pass the content to saveFileAs function
+            }
         },
     },
     history: {

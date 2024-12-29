@@ -1,5 +1,6 @@
 
-//src/renderer/src/services/fileOperations.js
+
+
 
 export const openFile = async () => {
     try {
@@ -21,25 +22,7 @@ export const openFile = async () => {
 };
 
 
-// src/renderer/src/services/fileOperations.js
 
-export const saveFileAs = async (content) => {
-    try {
-        // Call the Electron API to save the file as a new file
-        const result = await window.electronAPI.saveFileAs(content);
-
-        // Check if an error is returned from the Electron API
-        if (result && result.error) {
-            throw new Error(result.error);
-        }
-
-        // Optionally, notify the user of the successful file save
-        alert('File saved successfully at: ' + result.filePath);
-    } catch (error) {
-        console.error('Error saving file as:', error);
-        alert('Failed to save file');
-    }
-};
 
 export const saveFile = async (filePath, content) => {
     try {
@@ -59,4 +42,20 @@ export const saveFile = async (filePath, content) => {
     }
 };
 
+export const saveFileAs = async (content) => {
+    try {
+        // Call the Electron API to save the file as a new file
+        const result = await window.electronAPI.saveFileAs(content);
 
+        // Check if an error is returned from the Electron API
+        if (result && result.error) {
+            throw new Error(result.error);
+        }
+
+        // Optionally, notify the user of the successful file save
+        alert('File saved successfully at: ' + result.filePath);
+    } catch (error) {
+        console.error('Error saving file as:', error);
+        alert('Failed to save file');
+    }
+};
