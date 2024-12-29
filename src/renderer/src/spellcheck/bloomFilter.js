@@ -6,6 +6,40 @@ const escapedSpecialChars = specialChars.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\
 const specialCharsRegex = new RegExp(`[${escapedSpecialChars}]`, 'g');
 
 
+export const loadBloomFilter = async (filePath, size, errorRate) => {
+  try {
+    console.log('loadBloomFilter file path: ', filePath);
+
+    // Initialize BloomFilter with size and error rate
+    const filter = new BloomFilter(size, errorRate);
+
+    // Read the file content using Electron API
+    const fileContent = await window.electronAPI.readFile(filePath); // Use Electron's readFile API
+
+    // Check if the file was read successfully
+    if (fileContent.error) {
+      throw new Error(fileContent.error); // If there's an error, throw it
+    }
+
+    // Assuming the file content is a list of words, one per line
+    const words = fileContent.split('\n'); // Split the content by line to get words
+
+    // Add each word to the Bloom filter
+    words.forEach((word) => {
+      if (word.trim().length > 0) {
+        filter.add(word.trim()); // Add the word to the Bloom filter
+      }
+    });
+
+    console.log('Bloom filter info: ', filter.getInfo()); // Output filter information
+    return filter; // Return the populated Bloom filter
+  } catch (error) {
+    console.error('Error loading Bloom Filter:', error);
+    throw error; // Re-throw error for the calling function to handle
+  }
+};
+
+
 export const getWrongWords = async (quill, bloomFilter) => {
   const fullText = quill.getText();
 
@@ -37,16 +71,5 @@ export const getWrongWords = async (quill, bloomFilter) => {
   } catch (error) {
     console.error('Error checking word correctness:', error);
     return []; // Return an empty list on error
-  }
-};
-
-
-export const loadBloomFilter = async (filePath, size, errorRate) => {
-  try {
-    const filter = await BloomFilter.fromFile(filePath, size, errorRate); // Create BloomFilter from file
-    return filter;
-  } catch (error) {
-    console.error('Error loading Bloom Filter:', error);
-    throw error; // Re-throw error for the calling function to handle
   }
 };
