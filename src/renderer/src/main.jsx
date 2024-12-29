@@ -1,11 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
 import App from './App'
-import { BloomFilterProvider } from './Context/bloom'
+import './index.css'
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(
-  <BloomFilterProvider>
-    <App />
-  </BloomFilterProvider>
-)
+root.render(<App />)

@@ -50,11 +50,11 @@ const QuillEditor = () => {
   }, []) // Empty dependency array, runs only once when component mounts
 
   useEffect(() => {
-    if (!currentWorkingDir) return // If no working directory, skip the logic
+    //if (!currentWorkingDir) return // If no working directory, skip the logic
 
     const loadFilterAndDict = async () => {
-      const bloomDictPath = `${currentWorkingDir}/${bloomCollection}`
-      const symspellDictPath = `${currentWorkingDir}/${symspellDict}`
+      const bloomDictPath = bloomCollection //`${currentWorkingDir}/${bloomCollection}`
+      const symspellDictPath = symspellDict //`${currentWorkingDir}/${symspellDict}`
 
       const size = 100000 // Define the size of the Bloom Filter
       const errorRate = 0.001 // Define the error rate
@@ -80,7 +80,7 @@ const QuillEditor = () => {
     }
 
     loadFilterAndDict()
-  }, [currentWorkingDir]) // Re-run when currentWorkingDir changes
+  }, []) // Re-run when currentWorkingDir changes
 
   // Append file handler (takes file path and content to append)
   const appendToFile = async (filePath, contentToAppend) => {

@@ -10,7 +10,7 @@ import { FONT_SIZES, FONTS } from "../../constants/Nudifonts";
 import CustomSizeDialog from "./CustomSizeDialog";
 import QuillResizeImage from "quill-resize-image";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { useBloomFilter } from "../../Context/bloom"; // Import the custom hook
+
 import { getWrongWords } from "../../spellcheck/bloomFilter";
 import { underlineWordInEditor } from "../../services/editorService";
 
@@ -31,7 +31,7 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
   const [openModal, setOpenModal] = useState(false);
   const [fontOption, setFontOption] = useState(FONTS[0]);
   const [sizeOption, setSizeOption] = useState(FONT_SIZES[2]);
-  const { bloomFilter, loading, error } = useBloomFilter(); // Use the BloomFilter context
+ 
 
   const handlePageSizeChange = (e) => {
     const selectedSize = e.target.value;

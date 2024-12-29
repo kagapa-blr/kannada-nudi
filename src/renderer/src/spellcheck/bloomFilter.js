@@ -8,7 +8,6 @@ const specialCharsRegex = new RegExp(`[${escapedSpecialChars}]`, 'g');
 
 export const loadBloomFilter = async (filePath, size, errorRate) => {
   try {
-    console.log('loadBloomFilter file path: ', filePath);
 
     // Initialize BloomFilter with size and error rate
     const filter = new BloomFilter(size, errorRate);
@@ -30,8 +29,6 @@ export const loadBloomFilter = async (filePath, size, errorRate) => {
         filter.add(word.trim()); // Add the word to the Bloom filter
       }
     });
-
-    console.log('Bloom filter info: ', filter.getInfo()); // Output filter information
     return filter; // Return the populated Bloom filter
   } catch (error) {
     console.error('Error loading Bloom Filter:', error);
