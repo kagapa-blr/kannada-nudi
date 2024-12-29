@@ -25,8 +25,6 @@ export const openFile = async () => {
 };
 
 
-
-
 export const saveFile = async (filePath, content) => {
     try {
         // Call the Electron API to save the file to the specified path
@@ -51,14 +49,16 @@ export const saveFileAs = async (content) => {
         const result = await window.electronAPI.saveFileAs(content);
 
         // Check if an error is returned from the Electron API
-        if (result && result.error) {
+        if (result?.error) {
             throw new Error(result.error);
         }
 
+        console.log('File path:', result); // Now result is the filePath directly
         // Optionally, notify the user of the successful file save
-        alert('File saved successfully at: ' + result.filePath);
+        alert('File saved successfully at: ' + result);
     } catch (error) {
         console.error('Error saving file as:', error);
         alert('Failed to save file');
     }
 };
+
