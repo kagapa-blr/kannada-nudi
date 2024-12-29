@@ -6,18 +6,21 @@ class SymSpellService {
     this.isLoaded = false; // Track if the dictionary has been loaded
   }
 
-  // Method to load the dictionary from a file (using fetch)
-  async loadDictionary(fileUrl) {
+  async loadDictionary(filePath) {
     try {
-      // Fetch the dictionary file content
-      const response = await fetch(fileUrl);
-      if (!response.ok) {
-        throw new Error("Failed to load dictionary file.");
-      }
-      const dictionaryContent = await response.text();
+      // Use electronAPI to read the file content
+      const dictionaryContent = await window.electronAPI.readFile(filePath);
 
-      // Load dictionary into SymSpell
-      await this.symSpell.loadDictionaryReact(dictionaryContent, 0, 1);
+      if (!dictionaryContent) {
+        throw new Error("Failed to load dictionary content.");
+      }
+
+      if (!this.symSpell) {
+        throw new Error("SymSpell instance not available.");
+      }
+
+      // Load the dictionary content into SymSpell
+      await this.symSpell.loadDictionaryReact(dictionaryContent, 0, 1); // Assuming this is correct API
       this.isLoaded = true;
       console.log("SymSpellService Dictionary loaded successfully.");
     } catch (error) {
@@ -25,6 +28,7 @@ class SymSpellService {
       this.isLoaded = false;
     }
   }
+
 
   // Method to get suggestions for a word
   getSuggestions(word) {
