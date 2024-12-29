@@ -11,7 +11,10 @@ export const openFile = async () => {
         if (result && result.error) {
             throw new Error(result.error);
         }
-
+        // Log the file path in the console
+        console.log('Opened file path:', result.filePath);
+        // Set the window title using the new setWindowTitle API
+        window.electronAPI.setWindowTitle(result.filePath);
         // Assuming 'result' contains the file content, load it into the Quill editor
         const quill = document.querySelector('.ql-editor'); // Get the Quill editor instance
         quill.innerHTML = result.content; // Set the file content to the editor

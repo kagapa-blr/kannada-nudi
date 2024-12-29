@@ -26,9 +26,11 @@ function createWindow() {
   }
 
   // Listen for title update events
-  ipcMain.on('update:title', (_, title) => {
-    mainWindow.setTitle(title || 'Untitled');
+  ipcMain.on('set:title', (_, title) => {
+    mainWindow.setTitle(title);  // Set the window title to the provided string
+    console.log('Window title set to:', title);  // Log the updated title
   });
+
 }
 
 app.whenReady().then(() => {

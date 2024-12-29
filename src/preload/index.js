@@ -71,4 +71,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
       return { error: 'Failed to fetch root directory' };
     }
   },
+
+
+  // Correctly expose the setWindowTitle function
+  setWindowTitle: (title) => {
+    ipcRenderer.send('set:title', title);
+  }
 });
