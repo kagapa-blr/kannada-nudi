@@ -1,19 +1,21 @@
-// src/main/file-operations.js
-import { ipcMain, dialog } from 'electron';
+import { dialog, ipcMain } from 'electron';
 import fs from 'fs';
-import { join } from 'path';
 
 export function setupFileOperations() {
   // Handle file open
-  ipcMain.handle('file:open', async () => {
+  ipcMain.handle('file:open', async (event) => {
     try {
       const { canceled, filePaths } = await dialog.showOpenDialog({
-        properties: ['openFile']
+        properties: ['openFile'],
       });
       if (canceled || !filePaths.length) return null;
 
       const filePath = filePaths[0];
       const content = fs.readFileSync(filePath, 'utf8');
+
+      // Notify renderer to update the title
+      event.sender.send('update:title', filePath);
+
       return { filePath, content };
     } catch (error) {
       console.error('Error opening file:', error);
@@ -21,13 +23,15 @@ export function setupFileOperations() {
     }
   });
 
-  // Handle save as file
-  ipcMain.handle('file:saveAs', async (_, content) => {
+  // Handle "Save As" functionality
+  ipcMain.handle('file:saveAs', async (event, content) => {
     try {
       const { canceled, filePath } = await dialog.showSaveDialog();
       if (canceled) return null;
 
       fs.writeFileSync(filePath, content, 'utf8');
+      event.sender.send('update:title', filePath);
+
       return filePath;
     } catch (error) {
       console.error('Error saving file:', error);
@@ -35,18 +39,20 @@ export function setupFileOperations() {
     }
   });
 
-  // Handle save file
-  ipcMain.handle('file:save', async (_, filePath, content) => {
+  // Handle "Save" functionality
+  ipcMain.handle('file:save', async (event, filePath, content) => {
     try {
       fs.writeFileSync(filePath, content, 'utf8');
+      event.sender.send('update:title', filePath);
+
       return filePath;
     } catch (error) {
       console.error('Error saving file:', error);
-      return { error: 'Failed to save content to file' };
+      return { error: 'Failed to save file' };
     }
   });
 
-  // Handle read file
+  // Handle file read
   ipcMain.handle('file:read', async (_, filePath) => {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
@@ -57,7 +63,7 @@ export function setupFileOperations() {
     }
   });
 
-  // Handle append to file
+  // Handle appending content to a file
   ipcMain.handle('file:append', async (_, filePath, content) => {
     try {
       fs.appendFileSync(filePath, content, 'utf8');
