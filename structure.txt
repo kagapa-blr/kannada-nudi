@@ -1,0 +1,30 @@
+kannada-nudi/
+├── build/
+├── dist/
+├── node_modules/
+├── out/
+├── resources/
+├── src/
+│   ├── main/
+│   │   └── index.js
+│   ├── preload/
+│   │   └── index.js
+│   └── renderer/
+│       ├── src/
+│       │   ├── App.jsx
+│       │   ├── Context/
+│       │   ├── components/
+│       │   ├── constants/
+│       │   ├── index.css
+│       │   ├── services/
+│       │   ├── spellcheck/
+│       │   └── main.jsx
+│       └── index.html
+├── electron.vite.config.mjs
+├── electron-builder.yml
+├── dev-app-update.yml
+├── package.json
+├── package-lock.json
+├── postcss.config.js
+├── tailwind.config.js
+└── README.md
