@@ -63,5 +63,26 @@ contextBridge.exposeInMainWorld('electronAPI', {
       console.error('Error appending content:', error)
       return { error: 'Failed to append content' }
     }
-  }
+  },
+
+
+  getCwd: async () => {
+    try {
+      const cwd = await ipcRenderer.invoke('get:cwd');
+      return cwd;
+    } catch (error) {
+      console.error('Error fetching current working directory:', error);
+      return { error: 'Failed to fetch current working directory' };
+    }
+  },
+
+  getRootDir: async () => {
+    try {
+      const rootDir = await ipcRenderer.invoke('get:rootDir');
+      return rootDir;
+    } catch (error) {
+      console.error('Error fetching root directory:', error);
+      return { error: 'Failed to fetch root directory' };
+    }
+  },
 })

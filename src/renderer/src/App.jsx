@@ -1,10 +1,10 @@
-import QuillEditor from "./components/QuillEditor";
+import QuillEditor from './components/QuillEditor'
 const App = () => {
   return (
     <>
       <QuillEditor />
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App

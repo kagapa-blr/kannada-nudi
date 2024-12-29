@@ -1,18 +1,17 @@
-import { useState, useRef, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ReactQuill from 'react-quill-new'
 import 'react-quill-new/dist/quill.snow.css'
+import { bloomCollection, symspellDict } from '../../../shared/constants'
+import Tooltip from '../components/editor/Tooltip'
+import { modules } from '../constants/editorModules'
+import { formats } from '../constants/formats'
+import { cleanWord, getWordAtPosition, underlineWordInEditor } from '../services/editorService'
+import { ignoreSingleChars, isSingleCharacter } from '../services/editorUtils'
+import { getWrongWords, loadBloomFilter } from '../spellcheck/bloomFilter'
+import SymSpellService from '../spellcheck/symspell'
 import Page from './Page'
 import EditorToolbar from './toolbar/QuillToolbar'
-import { formats } from '../constants/formats'
-import { modules } from '../constants/editorModules'
-import { getWordAtPosition, underlineWordInEditor, cleanWord } from '../services/editorService'
-import Tooltip from '../components/editor/Tooltip'
-import { loadBloomFilter } from '../spellcheck/bloomFilter'
-
 import LoadingComponent from './utils/LoadingComponent'
-import { ignoreSingleChars, isSingleCharacter } from '../services/editorUtils'
-import SymSpellService from '../spellcheck/symspell'
-import { getWrongWords } from '../spellcheck/bloomFilter'
 
 const QuillEditor = () => {
   const [content, setContent] = useState('')
@@ -27,38 +26,28 @@ const QuillEditor = () => {
   const [tooltipPosition, setTooltipPosition] = useState({})
   const [replacementWord, setReplacementWord] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true) // For loading state
   const [bloomFilter, setBloomFilter] = useState(null) // State to store BloomFilter
   const [currentFilePath, setCurrentFilePath] = useState('')
+  const [currentWorkingDir, setCurrentWorkingDir] = useState('')
 
   const specialChars = '!@#$%^&*()_+[]{}|;:\',.<>/?~-=\\"'
   const [symSpell, setSymSpell] = useState(null)
-  const dictionaryPath = '../../resources/collection.txt'
-  const word_frequency_path = '../../resources/word_frequency.txt'
 
-  // Open file handler
-  const openFile = async () => {
-    const filePath = await window.electronAPI.openFile()
-    if (filePath) {
-      setCurrentFilePath(filePath)
-      const content = await window.electronAPI.readFile(filePath)
-      // You can use this content to populate your editor or UI
-    }
-  }
-
-  // Save file handler
-  const saveFile = async () => {
-    if (currentFilePath) {
-      await window.electronAPI.saveFile(currentFilePath, content)
-      alert('File saved successfully!')
-    } else {
-      const filePath = await window.electronAPI.saveFileAs(content)
-      if (filePath) {
-        setCurrentFilePath(filePath)
-        alert('File saved successfully!')
-      }
-    }
-  }
+  useEffect(() => {
+    window.electronAPI
+      .getCwd()
+      .then((cwd) => {
+        if (cwd && cwd.trim()) {
+          setCurrentWorkingDir(cwd) // Set the state once we get the value
+        }
+        setIsLoading(false) // Once the cwd is fetched, set loading to false
+      })
+      .catch((error) => {
+        console.error('Error fetching current working directory:', error)
+        setIsLoading(false) // If there is an error, stop loading
+      })
+  }, [])
 
   // Append file handler (takes file path and content to append)
   const appendToFile = async (filePath, contentToAppend) => {
@@ -74,50 +63,44 @@ const QuillEditor = () => {
       alert('Please provide both the file path and content to append.')
     }
   }
-
-  // Load Bloom Filter on mount
   useEffect(() => {
-    const size = 100000 // Define the size of the Bloom Filter
-    const errorRate = 0.001 // Define the error rate
+    if (currentWorkingDir) {
+      // Adjust paths based on the given structure
+      const bloomDictPath = `${currentWorkingDir}/${bloomCollection}`
+      const symspellDictPath = `${currentWorkingDir}/${symspellDict}`
 
-    console.log(`Starting to load Bloom Filter from: ${dictionaryPath}`)
-    console.log(`Expected Bloom Filter size: ${size}, Error rate: ${errorRate}`)
+      const size = 100000 // Define the size of the Bloom Filter
+      const errorRate = 0.001 // Define the error rate
 
-    loadBloomFilter(dictionaryPath, size, errorRate)
-      .then((filter) => {
-        console.log('Bloom Filter loaded successfully.')
-        setBloomFilter(filter) // Set the BloomFilter in state
-      })
-      .catch((err) => {
-        console.error('Failed to load Bloom Filter. Error details:', err)
-        // Optionally handle error state updates here if required
-      })
-  }, [])
+      console.log(`Starting to load Bloom Filter from: ${bloomDictPath}`)
+      console.log(`Expected Bloom Filter size: ${size}, Error rate: ${errorRate}`)
 
-  useEffect(() => {
-    const loadSymSpell = async () => {
-      const symSpellService = new SymSpellService()
-      try {
-        await symSpellService.loadSymSpell(symSpellService, word_frequency_path)
-        setSymSpell(symSpellService)
-        console.log('Successfully loaded symSpellService')
-      } catch (error) {
-        console.error('Error loading dictionary:', error)
+      loadBloomFilter(bloomDictPath, size, errorRate)
+        .then((filter) => {
+          console.log('Bloom Filter loaded successfully.')
+          setBloomFilter(filter) // Set the BloomFilter in state
+        })
+        .catch((err) => {
+          console.error('Failed to load Bloom Filter. Error details:', err)
+          setError('Failed to load Bloom Filter') // Handle error if needed
+        })
+
+      const loadSymSpell = async () => {
+        const symSpellService = new SymSpellService()
+        try {
+          await symSpellService.loadSymSpell(symSpellService, symspellDictPath)
+          setSymSpell(symSpellService)
+          console.log('Successfully loaded SymSpell service from:', symspellDictPath)
+        } catch (error) {
+          console.error('Error loading dictionary:', error)
+          setError('Failed to load SymSpell') // Handle error if needed
+        }
       }
-    }
 
-    loadSymSpell()
-  }, [])
-
-  const handleCheckWord = (word) => {
-    if (bloomFilter) {
-      const isContained = bloomFilter.contains(word)
-      console.log(isContained ? `${word} is in the filter` : `${word} is NOT in the filter`)
-      //const quill = quillRef.current?.getEditor();
-      //console.log("suggestions: ", symSpell.lookup(word, maxEditDistance));
-      //underlineWordInEditor(quill, word);
+      loadSymSpell()
     }
-  }
+  }, [currentWorkingDir]) // Re-run when currentWorkingDir changes
+
   useEffect(() => {
     paginateContent()
   }, [content, pageSize])
@@ -317,7 +300,7 @@ const QuillEditor = () => {
         //   console.error("Failed to add the word to the dictionary.");
         // }
         console.log('add to dictionary called', clickedWord)
-        appendToFile(dictionaryPath, clickedWord)
+        appendToFile(bloomDictPath, clickedWord)
       } catch (error) {
         console.error('Error adding word to dictionary:', error)
       }

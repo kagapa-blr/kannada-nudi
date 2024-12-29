@@ -7,34 +7,37 @@ const specialCharsRegex = new RegExp(`[${escapedSpecialChars}]`, 'g');
 
 
 export const getWrongWords = async (quill, bloomFilter) => {
-    const fullText = quill.getText();
+  const fullText = quill.getText();
 
+  // Split the text into words and clean them
+  const words = fullText
+    .split(/\s+/) // Split by spaces
+    .filter(word => word.length > 0) // Remove empty strings
+    .map(word => word.replace(specialCharsRegex, '').trim()) // Clean special characters
+    .filter(word => word.length > 0); // Remove any remaining empty strings after cleaning
 
-    // Split the text into words and clean them
-    const words = fullText
-        .split(/\s+/) // Split by spaces
-        .filter(word => word.length > 0) // Remove empty strings
-        .map(word => word.replace(specialCharsRegex, '').trim()) // Clean special characters
-        .filter(word => word.length > 0); // Remove any remaining empty strings after cleaning
+  // Get unique words
+  const uniqueWords = [...new Set(words)];
 
-    // Get unique words
-    const uniqueWords = [...new Set(words)];
+  const wrongWords = [];
 
-    const wrongWords = [];
+  try {
+    // Using Promise.all to check for wrong words in parallel
+    const wordChecks = uniqueWords.map(async (word) => {
+      const isContained = await bloomFilter.contains(word);
+      if (!isContained) {
+        wrongWords.push(word);
+      }
+    });
 
-    try {
-        for (const word of uniqueWords) {
-            const isContained = await bloomFilter.contains(word);
-            if (!isContained) {
-                wrongWords.push(word);
-            }
-        }
+    // Wait for all the promises to resolve
+    await Promise.all(wordChecks);
 
-        return wrongWords; // Return the list of wrong words
-    } catch (error) {
-        console.error('Error checking word correctness:', error);
-        return []; // Return an empty list on error
-    }
+    return wrongWords; // Return the list of wrong words
+  } catch (error) {
+    console.error('Error checking word correctness:', error);
+    return []; // Return an empty list on error
+  }
 };
 
 

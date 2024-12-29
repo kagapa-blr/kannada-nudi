@@ -1,9 +1,8 @@
 // src/main/index.js
 
-import { app, BrowserWindow, ipcMain, dialog } from 'electron'
-import { join } from 'path'
-import fs from 'fs'
-
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
+import fs from 'fs';
+import { join } from 'path';
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -95,3 +94,12 @@ ipcMain.handle('file:append', async (_, filePath, content) => {
     return { error: 'Failed to append content' }
   }
 })
+// New handlers
+ipcMain.handle('get:cwd', () => {
+  return process.cwd(); // Current working directory
+});
+
+ipcMain.handle('get:rootDir', () => {
+  const appDirectoryName = 'kannada-nudi'; // Replace with your app's directory name
+  return join(os.homedir(), appDirectoryName); // Root directory
+});
