@@ -1,4 +1,4 @@
-import { openFile } from '../services/fileOperations.js';
+import { openFile, saveFile, saveFileAs } from '../services/toolbarFunctions.js';
 import { PAGE_SIZES } from "./pageSizes";
 
 // Undo and redo functions for Custom Toolbar
@@ -9,21 +9,6 @@ function undoChange() {
 function redoChange() {
     this.quill.history.redo();
 }
-
-
-// Renderer process: src/preload/index.js
-
-
-
-
-const saveFile = () => {
-    const content = document.querySelector(".ql-editor").innerHTML; // Get the editor content
-    const blob = new Blob([content], { type: "text/html" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "document.txt"; // Name of the saved file
-    link.click();
-};
 
 const refreshButton = () => {
     console.log('handle function defined separately');
@@ -60,6 +45,7 @@ export const modules = {
             open: openFile,
             // Save file handler
             save: saveFile,
+            saveAs: saveFileAs
 
 
         },

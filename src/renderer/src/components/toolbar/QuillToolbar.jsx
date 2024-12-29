@@ -2,6 +2,7 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen'
 import RedoIcon from '@mui/icons-material/Redo'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import SaveIcon from '@mui/icons-material/Save'
+import SaveAsIcon from '@mui/icons-material/SaveAs'
 import UndoIcon from '@mui/icons-material/Undo'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import QuillResizeImage from 'quill-resize-image'
@@ -13,7 +14,6 @@ import { PAGE_SIZES } from '../../constants/pageSizes'
 import { underlineWordInEditor } from '../../services/editorService'
 import { getWrongWords } from '../../spellcheck/bloomFilter'
 import CustomSizeDialog from './CustomSizeDialog'
-
 const Size = Quill.import('formats/size')
 Size.whitelist = FONT_SIZES
 Quill.register(Size, true)
@@ -108,6 +108,11 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
       <span className="ql-formats">
         <button className="ql-save " title={ICON_LABELS_KANNADA.save}>
           <SaveIcon style={{ fontSize: 40 }} />
+        </button>
+      </span>
+      <span className="ql-formats">
+        <button className="ql-saveAs " title={ICON_LABELS_KANNADA.save}>
+          <SaveAsIcon style={{ fontSize: 40 }} />
         </button>
       </span>
 
