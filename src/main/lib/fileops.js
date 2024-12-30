@@ -1,4 +1,4 @@
-// src/main/file-operations.js
+// src/main/lib/fileops.js
 import { dialog, ipcMain } from 'electron';
 import fs from 'fs';
 

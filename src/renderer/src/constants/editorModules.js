@@ -1,7 +1,7 @@
 import { openFile, saveFile, saveFileAs } from '../services/toolbarFunctions.js';
 import { PAGE_SIZES } from "./pageSizes";
 
-// Undo and redo functions for Custom Toolbar
+// Undo and redo functions for the Custom Toolbar
 function undoChange() {
     this.quill.history.undo();
 }
@@ -10,9 +10,10 @@ function redoChange() {
     this.quill.history.redo();
 }
 
+// Custom Refresh Button Handler
 const refreshButton = () => {
-    console.log('handle function defined separately');
-}
+    console.log('Refresh button clicked. Define your behavior here.');
+};
 
 // Modules object for setting up the Quill editor
 export const modules = {
@@ -42,14 +43,31 @@ export const modules = {
                 }
             },
             // Open file handler
-            open: openFile,
+            open: async function () {
+                try {
+                    await openFile();
+                } catch (error) {
+                    console.error('Error opening file:', error);
+                }
+            },
             // Save file handler
-            save: saveFile,
+            save: async function () {
+                try {
+                    const content = this.quill.root.innerHTML; // Get the HTML content from the editor
+                    await saveFile(content); // Pass the content to saveFile
+                } catch (error) {
+                    console.error('Error saving file:', error);
+                }
+            },
             // Save as handler (passing content from Quill editor)
-            saveAs: function () {
-                const content = this.quill.root.innerHTML;  // Get the HTML content from the editor
-                saveFileAs(content);  // Pass the content to saveFileAs function
-            }
+            saveAs: async function () {
+                try {
+                    const content = this.quill.root.innerHTML; // Get the HTML content from the editor
+                    await saveFileAs(content); // Pass the content to saveFileAs
+                } catch (error) {
+                    console.error('Error saving file as:', error);
+                }
+            },
         },
     },
     history: {

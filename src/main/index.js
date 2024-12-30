@@ -1,3 +1,5 @@
+//src/main/index.js
+
 import { app, BrowserWindow, ipcMain } from 'electron';
 import os from 'os';
 import { join } from 'path';
@@ -30,6 +32,15 @@ function createWindow() {
     mainWindow.setTitle(title);  // Set the window title to the provided string
     console.log('Window title set to:', title);  // Log the updated title
   });
+
+  // Add this IPC handler
+  ipcMain.handle('get:title', () => {
+    if (mainWindow) {
+      return mainWindow.getTitle(); // Retrieve the current window title
+    }
+    return null; // Return null if the window is not available
+  });
+
 
 }
 
