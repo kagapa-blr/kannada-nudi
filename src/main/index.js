@@ -1,21 +1,21 @@
-//src/main/index.js
-
 import { app, BrowserWindow, ipcMain } from 'electron';
 import os from 'os';
 import { join } from 'path';
+import icon from '../../resources/assets/logo.png?asset';
 import { setupFileOperations } from './lib/fileops.js';
-
 let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
     height: 670,
+    ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,
-      sandbox: false,
+      sandbox: true,
     },
+
   });
 
   mainWindow.maximize();
@@ -29,8 +29,8 @@ function createWindow() {
 
   // Listen for title update events
   ipcMain.on('set:title', (_, title) => {
-    mainWindow.setTitle(title);  // Set the window title to the provided string
-    console.log('Window title set to:', title);  // Log the updated title
+    mainWindow.setTitle(title); // Set the window title to the provided string
+    console.log('Window title set to:', title); // Log the updated title
   });
 
   // Add this IPC handler
@@ -40,8 +40,6 @@ function createWindow() {
     }
     return null; // Return null if the window is not available
   });
-
-
 }
 
 app.whenReady().then(() => {
