@@ -48,5 +48,10 @@ export const ICON_LABELS_KANNADA = {
     font: "ಅಕ್ಷರದ ಪ್ರಕಾರ",
     fontSize: "ಅಕ್ಷರದ ಗಾತ್ರ",
     headline: "ಶೀರ್ಷಿಕೆ ಗಾತ್ರ",
-    block:"ಕೋಡ್ ಬ್ಲಾಕ್"
+    block: "ಕೋಡ್ ಬ್ಲಾಕ್",
+    spellcheck: "ಕಾಗುಣಿತ ಪರಿಶೀಲನೆ",
+    voiceToText: "ಧ್ವನಿ ಪಠ್ಯ",
+    zoomIn: "ಜೂಮ್ ಇನ್",
+    zoomOut: "ಜೂಮ್ ಔಟ್",
+    searchWord: "ಪದವನ್ನು ಹುಡುಕಿ"
 };

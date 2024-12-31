@@ -221,28 +221,48 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
         </button>
       </span>
       <span className="ql-formats">
-        <button onClick={refreshButtonhandle} className="ql-refresh-button">
+        <button
+          onClick={refreshButtonhandle}
+          className="ql-refresh-button"
+          title={ICON_LABELS_KANNADA.voiceToText}
+        >
           <SettingsVoiceIcon />
         </button>
       </span>
       <span className="ql-formats">
-        <button onClick={refreshButtonhandle} className="ql-ZoomIn-button">
+        <button
+          onClick={refreshButtonhandle}
+          className="ql-ZoomIn-button"
+          title={ICON_LABELS_KANNADA.zoomIn}
+        >
           <ZoomInIcon />
         </button>
       </span>
       <span className="ql-formats">
-        <button onClick={refreshButtonhandle} className="ql-ZoomOut-button">
+        <button
+          onClick={refreshButtonhandle}
+          className="ql-ZoomOut-button"
+          title={ICON_LABELS_KANNADA.zoomOut}
+        >
           <ZoomOutIcon />
         </button>
       </span>
       <span className="ql-formats">
-        <button onClick={refreshButtonhandle} className="ql-searchWord-button">
+        <button
+          onClick={refreshButtonhandle}
+          className="ql-searchWord-button"
+          title={ICON_LABELS_KANNADA.searchWord}
+        >
           <ScreenSearchDesktopIcon />
         </button>
       </span>
       <span className="ql-formats">
-        <button onClick={refreshButtonhandle} className="ql-Spellcheck-button">
-          <SpellcheckIcon fontSize="large"  />
+        <button
+          onClick={refreshButtonhandle}
+          className="ql-Spellcheck-button"
+          title={ICON_LABELS_KANNADA.spellcheck}
+        >
+          <SpellcheckIcon fontSize="large" />
         </button>
       </span>
 
