@@ -3,7 +3,12 @@ import RedoIcon from '@mui/icons-material/Redo'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import SaveIcon from '@mui/icons-material/Save'
 import SaveAsIcon from '@mui/icons-material/SaveAs'
+import ScreenSearchDesktopIcon from '@mui/icons-material/ScreenSearchDesktop'
+import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice'
+import SpellcheckIcon from '@mui/icons-material/Spellcheck'
 import UndoIcon from '@mui/icons-material/Undo'
+import ZoomInIcon from '@mui/icons-material/ZoomIn'
+import ZoomOutIcon from '@mui/icons-material/ZoomOut'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import QuillResizeImage from 'quill-resize-image'
 import React, { useState } from 'react'
@@ -213,6 +218,31 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
       <span className="ql-formats">
         <button onClick={refreshButtonhandle} className="ql-refresh-button">
           <RefreshIcon />
+        </button>
+      </span>
+      <span className="ql-formats">
+        <button onClick={refreshButtonhandle} className="ql-refresh-button">
+          <SettingsVoiceIcon />
+        </button>
+      </span>
+      <span className="ql-formats">
+        <button onClick={refreshButtonhandle} className="ql-ZoomIn-button">
+          <ZoomInIcon />
+        </button>
+      </span>
+      <span className="ql-formats">
+        <button onClick={refreshButtonhandle} className="ql-ZoomOut-button">
+          <ZoomOutIcon />
+        </button>
+      </span>
+      <span className="ql-formats">
+        <button onClick={refreshButtonhandle} className="ql-searchWord-button">
+          <ScreenSearchDesktopIcon />
+        </button>
+      </span>
+      <span className="ql-formats">
+        <button onClick={refreshButtonhandle} className="ql-Spellcheck-button">
+          <SpellcheckIcon fontSize="large"  />
         </button>
       </span>
 

@@ -11,7 +11,7 @@ import { getWrongWords, loadBloomFilter } from '../spellcheck/bloomFilter'
 import SymSpellService from '../spellcheck/symspell'
 import Page from './Page'
 import EditorToolbar from './toolbar/QuillToolbar'
-import LoadingComponent from './utils/LoadingComponent'
+import StartAppLoading from './utils/StartAppLoading'
 
 const QuillEditor = () => {
   const [content, setContent] = useState('')
@@ -470,7 +470,8 @@ const QuillEditor = () => {
         />
       )}
 
-      {isLoading && <LoadingComponent />}
+      {/* {isLoading && <LoadingComponent />} */}
+      {isLoading && <StartAppLoading />}
     </div>
   )
 }
