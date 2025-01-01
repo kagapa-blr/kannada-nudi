@@ -14,6 +14,23 @@ export const replaceAll = () => {
 
 }
 
-export const ignoreAll = () => {
 
-}
+
+export const ignoreAll = ({quillRef,clickedWord}) => {
+    const quill = quillRef.current?.getEditor();
+    if (!quill || !clickedWord) return;
+
+    const fullText = quill.getText();
+    let index = fullText.indexOf(clickedWord);
+
+    if (index !== -1) {
+        while (index !== -1) {
+            quill.formatText(index, clickedWord.length, {
+                underline: false,
+                color: '',
+            });
+            index = fullText.indexOf(clickedWord, index + clickedWord.length);
+        }
+    }
+
+};

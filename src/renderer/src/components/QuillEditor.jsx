@@ -7,7 +7,7 @@ import { modules } from '../constants/editorModules'
 import { formats } from '../constants/formats'
 import { cleanWord, getWordAtPosition, underlineWordInEditor } from '../services/editorService'
 import { ignoreSingleChars, isSingleCharacter } from '../services/editorUtils'
-import { addToDictionary } from '../services/toolTipOperations.js'
+import { addToDictionary, ignoreAll } from '../services/toolTipOperations.js'
 import { getWrongWords, loadBloomFilter } from '../spellcheck/bloomFilter'
 import SymSpellService from '../spellcheck/symspell'
 import Page from './Page'
@@ -82,20 +82,6 @@ const QuillEditor = () => {
     loadFilterAndDict()
   }, []) // Re-run when currentWorkingDir changes
 
-  // Append file handler (takes file path and content to append)
-  // const appendToFile = async (filePath, contentToAppend) => {
-  //   console.log('filepaht: ', filePath, 'contentToAppend: ', contentToAppend)
-  //   if (filePath && contentToAppend) {
-  //     const success = await window.electronAPI.appendContent(filePath, contentToAppend + '\n')
-  //     if (success) {
-  //       alert('Content appended successfully!')
-  //     } else {
-  //       alert('Failed to append content.')
-  //     }
-  //   } else {
-  //     alert('Please provide both the file path and content to append.')
-  //   }
-  // }
   useEffect(() => {
     paginateContent()
   }, [content, pageSize])
@@ -322,21 +308,8 @@ const QuillEditor = () => {
     setReplacementWord('')
   }
 
-  const ignoreAll = () => {
-    const quill = quillRef.current?.getEditor()
-    const fullText = quill.getText()
-    let index = fullText.indexOf(clickedWord)
-
-    if (index !== -1) {
-      while (index !== -1) {
-        quill.formatText(index, clickedWord.length, {
-          underline: false,
-          color: ''
-        })
-        index = fullText.indexOf(clickedWord, index + clickedWord.length)
-      }
-    }
-
+  const handleignoreAll = () => {
+    ignoreAll({ quillRef, clickedWord })
     setClickedWord(null)
     setWrongWords(wrongwords.filter((word) => word !== clickedWord))
   }
@@ -443,7 +416,7 @@ const QuillEditor = () => {
           replaceWord={replaceWord}
           addDictionary={handleaddToDictionary}
           replaceAll={replaceAll}
-          ignoreAll={ignoreAll}
+          ignoreAll={handleignoreAll}
         />
       )}
 
