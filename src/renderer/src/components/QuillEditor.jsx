@@ -18,6 +18,7 @@ const QuillEditor = () => {
   const [pages, setPages] = useState([0])
   const [pageSize, setPageSize] = useState({ width: 816, height: 1056 }) // Default A4 size
   const quillRef = useRef(null)
+  const debounceTimerRef = useRef(null);
   const [mouseDown, setMouseDown] = useState(false) // Track if mouse is down
 
   const [wrongwords, setWrongWords] = useState([])
@@ -188,37 +189,34 @@ const QuillEditor = () => {
   const handleKeyDown = async (e) => {
     if (e.key === ' ') {
       // Debounce logic
-      clearTimeout(window.debounceTimer)
-      window.debounceTimer = setTimeout(async () => {
-        const quill = quillRef.current.getEditor()
-        const range = quill.getSelection()
-
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = setTimeout(async () => {
+        const quill = quillRef.current.getEditor();
+        const range = quill.getSelection();
         if (range) {
-          const currentText = quill.getText(0, range.index).trim()
-          const words = currentText.split(/\s+/)
+          const currentText = quill.getText(0, range.index).trim();
+          const words = currentText.split(/\s+/);
           let lastWord = words[words.length - 1]
             .split('')
             .filter((char) => !specialChars.includes(char))
-            .join('')
-          if (isSingleCharacter(lastWord)) return
-
+            .join('');
+          if (isSingleCharacter(lastWord)) return;
+  
           if (wrongwords.includes(cleanWord(lastWord))) {
-            underlineWordInEditor(quill, lastWord)
+            underlineWordInEditor(quill, lastWord);
           } else if (lastWord && !/^[a-zA-Z0-9]+$/.test(lastWord)) {
-            const isContained = await bloomFilter.contains(lastWord) //returns true or false
-
-            //if flase then underline
+            const isContained = await bloomFilter.contains(lastWord); // returns true or false
+  
             if (!isContained) {
-              setWrongWords((prevErrors) => [...prevErrors, lastWord])
-              const quill = quillRef.current?.getEditor()
-              underlineWordInEditor(quill, lastWord)
+              setWrongWords((prevErrors) => [...prevErrors, lastWord]);
+              underlineWordInEditor(quill, lastWord);
             }
           }
         }
-      }, 300) // Adjust the debounce time as needed
+      }, 300); // Adjust debounce time as needed
     }
-  }
-
+  };
+  
   const handleSuggestionReplace = (replacement) => {
     // Update errors and clickedWord state
     replaceWord({ quillRef, replacement, clickedWord })
