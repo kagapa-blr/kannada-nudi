@@ -47,7 +47,7 @@ const QuillEditor = () => {
     }
 
     fetchData()
-  }, []) // Empty dependency array, runs only once when component mounts
+  }, []) 
 
   useEffect(() => {
     //if (!currentWorkingDir) return // If no working directory, skip the logic
@@ -80,7 +80,7 @@ const QuillEditor = () => {
     }
 
     loadFilterAndDict()
-  }, []) // Re-run when currentWorkingDir changes
+  }, []) 
 
   useEffect(() => {
     paginateContent()
@@ -126,7 +126,7 @@ const QuillEditor = () => {
     }
 
     fetchWrongWords()
-  }, []) // Add dependencies as needed
+  }, [])
 
   useEffect(() => {
     const quill = quillRef.current?.getEditor()
