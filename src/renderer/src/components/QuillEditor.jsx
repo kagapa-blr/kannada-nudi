@@ -7,12 +7,12 @@ import { modules } from '../constants/editorModules'
 import { formats } from '../constants/formats'
 import { cleanWord, getWordAtPosition, underlineWordInEditor } from '../services/editorService'
 import { ignoreSingleChars, isSingleCharacter } from '../services/editorUtils'
+import { addToDictionary } from '../services/toolTipOperations.js'
 import { getWrongWords, loadBloomFilter } from '../spellcheck/bloomFilter'
 import SymSpellService from '../spellcheck/symspell'
 import Page from './Page'
 import EditorToolbar from './toolbar/QuillToolbar'
 import StartAppLoading from './utils/StartAppLoading'
-
 const QuillEditor = () => {
   const [content, setContent] = useState('')
   const [pages, setPages] = useState([0])
@@ -83,19 +83,19 @@ const QuillEditor = () => {
   }, []) // Re-run when currentWorkingDir changes
 
   // Append file handler (takes file path and content to append)
-  const appendToFile = async (filePath, contentToAppend) => {
-    console.log('filepaht: ', filePath, 'contentToAppend: ', contentToAppend)
-    if (filePath && contentToAppend) {
-      const success = await window.electronAPI.appendContent(filePath, contentToAppend + '\n')
-      if (success) {
-        alert('Content appended successfully!')
-      } else {
-        alert('Failed to append content.')
-      }
-    } else {
-      alert('Please provide both the file path and content to append.')
-    }
-  }
+  // const appendToFile = async (filePath, contentToAppend) => {
+  //   console.log('filepaht: ', filePath, 'contentToAppend: ', contentToAppend)
+  //   if (filePath && contentToAppend) {
+  //     const success = await window.electronAPI.appendContent(filePath, contentToAppend + '\n')
+  //     if (success) {
+  //       alert('Content appended successfully!')
+  //     } else {
+  //       alert('Failed to append content.')
+  //     }
+  //   } else {
+  //     alert('Please provide both the file path and content to append.')
+  //   }
+  // }
   useEffect(() => {
     paginateContent()
   }, [content, pageSize])
@@ -140,7 +140,7 @@ const QuillEditor = () => {
     }
 
     fetchWrongWords()
-  }, [content]) // Add dependencies as needed
+  }, []) // Add dependencies as needed
 
   useEffect(() => {
     const quill = quillRef.current?.getEditor()
@@ -268,34 +268,11 @@ const QuillEditor = () => {
     setClickedWord(null)
   }
 
-  const addDictionary = async () => {
+  const handleaddToDictionary = async () => {
     if (clickedWord) {
       try {
-        // const response = true; //= await addWordToDictionary(cleanWord(clickedWord));
-        // if (response) {
-        //   const quill = quillRef.current.getEditor();
-        //   const fullText = quill.getText();
-        //   let index = fullText.indexOf(clickedWord);
-
-        //   if (index !== -1) {
-        //     while (index !== -1) {
-        //       // Remove underline and reset color
-        //       quill.formatText(index, clickedWord.length, {
-        //         underline: false,
-        //         color: "",
-        //       });
-        //       index = fullText.indexOf(clickedWord, index + clickedWord.length);
-        //     }
-        //   }
-
-        //   setWrongWords(wrongwords.filter((word) => word !== clickedWord));
-        //   setClickedWord(null);
-        //   console.log(response);
-        // } else {
-        //   console.error("Failed to add the word to the dictionary.");
-        // }
         console.log('add to dictionary called', clickedWord)
-        appendToFile(bloomDictPath, clickedWord)
+        addToDictionary(bloomCollection, clickedWord)
       } catch (error) {
         console.error('Error adding word to dictionary:', error)
       }
@@ -464,7 +441,7 @@ const QuillEditor = () => {
           tooltipPosition={tooltipPosition}
           setClickedWord={setClickedWord}
           replaceWord={replaceWord}
-          addDictionary={addDictionary}
+          addDictionary={handleaddToDictionary}
           replaceAll={replaceAll}
           ignoreAll={ignoreAll}
         />
