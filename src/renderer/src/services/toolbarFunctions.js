@@ -101,7 +101,7 @@ export const refreshAndGetWrongWords = async ({ quillRef, bloomFilter }) => {
             const filteredWords = ignoreSingleChars(wrongWordList);
 
             // Underline new errors in the editor
-            filteredWords.forEach((word) => underlineWordInEditor(quill, word));
+            await filteredWords.forEach((word) => underlineWordInEditor(quill, word));
 
             return filteredWords;
         } else {

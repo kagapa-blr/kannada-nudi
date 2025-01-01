@@ -263,28 +263,6 @@ const QuillEditor = () => {
     setWrongWords(wrongwords.filter((word) => word !== clickedWord))
   }
 
-  const handleRefresh = async () => {
-    console.log('Refresh called')
-    setIsLoading(true)
-    const quill = quillRef.current?.getEditor()
-
-    // Clear previous errors before refreshing
-    setWrongWords([])
-
-    // Fetch new wrong words (spellcheck the content again)
-    const wrongWordList = await refreshWords(quill)
-    if (wrongWordList) {
-      const removedSinglechar = ignoreSingleChars(wrongWordList)
-
-      // Underline new errors in the editor
-      removedSinglechar.forEach((word) => underlineWordInEditor(quill, word))
-
-      // Update the errors state
-      setWrongWords(removedSinglechar)
-    }
-
-    setIsLoading(false)
-  }
 
   const handleInputClick = (e) => {
     e.target.focus() // Focus the input when clicked
