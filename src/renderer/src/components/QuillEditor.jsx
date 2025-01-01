@@ -11,14 +11,14 @@ import { addToDictionary, ignoreAll, replaceWord } from '../services/toolTipOper
 import { getWrongWords, loadBloomFilter } from '../spellcheck/bloomFilter'
 import SymSpellService from '../spellcheck/symspell'
 import Page from './Page'
-import EditorToolbar from './toolbar/QuillToolbar'
+import QuillToolbar from './toolbar/QuillToolbar'
 import StartAppLoading from './utils/StartAppLoading'
 const QuillEditor = () => {
   const [content, setContent] = useState('')
   const [pages, setPages] = useState([0])
   const [pageSize, setPageSize] = useState({ width: 816, height: 1056 }) // Default A4 size
   const quillRef = useRef(null)
-  const debounceTimerRef = useRef(null);
+  const debounceTimerRef = useRef(null)
   const [mouseDown, setMouseDown] = useState(false) // Track if mouse is down
 
   const [wrongwords, setWrongWords] = useState([])
@@ -48,7 +48,7 @@ const QuillEditor = () => {
     }
 
     fetchData()
-  }, []) 
+  }, [])
 
   useEffect(() => {
     //if (!currentWorkingDir) return // If no working directory, skip the logic
@@ -81,7 +81,7 @@ const QuillEditor = () => {
     }
 
     loadFilterAndDict()
-  }, []) 
+  }, [])
 
   useEffect(() => {
     paginateContent()
@@ -189,34 +189,34 @@ const QuillEditor = () => {
   const handleKeyDown = async (e) => {
     if (e.key === ' ') {
       // Debounce logic
-      clearTimeout(debounceTimerRef.current);
+      clearTimeout(debounceTimerRef.current)
       debounceTimerRef.current = setTimeout(async () => {
-        const quill = quillRef.current.getEditor();
-        const range = quill.getSelection();
+        const quill = quillRef.current.getEditor()
+        const range = quill.getSelection()
         if (range) {
-          const currentText = quill.getText(0, range.index).trim();
-          const words = currentText.split(/\s+/);
+          const currentText = quill.getText(0, range.index).trim()
+          const words = currentText.split(/\s+/)
           let lastWord = words[words.length - 1]
             .split('')
             .filter((char) => !specialChars.includes(char))
-            .join('');
-          if (isSingleCharacter(lastWord)) return;
-  
+            .join('')
+          if (isSingleCharacter(lastWord)) return
+
           if (wrongwords.includes(cleanWord(lastWord))) {
-            underlineWordInEditor(quill, lastWord);
+            underlineWordInEditor(quill, lastWord)
           } else if (lastWord && !/^[a-zA-Z0-9]+$/.test(lastWord)) {
-            const isContained = await bloomFilter.contains(lastWord); // returns true or false
-  
+            const isContained = await bloomFilter.contains(lastWord) // returns true or false
+
             if (!isContained) {
-              setWrongWords((prevErrors) => [...prevErrors, lastWord]);
-              underlineWordInEditor(quill, lastWord);
+              setWrongWords((prevErrors) => [...prevErrors, lastWord])
+              underlineWordInEditor(quill, lastWord)
             }
           }
         }
-      }, 300); // Adjust debounce time as needed
+      }, 300) // Adjust debounce time as needed
     }
-  };
-  
+  }
+
   const handleSuggestionReplace = (replacement) => {
     // Update errors and clickedWord state
     replaceWord({ quillRef, replacement, clickedWord })
@@ -290,10 +290,19 @@ const QuillEditor = () => {
     e.target.focus() // Focus the input when clicked
   }
 
+  const updateWrongWords = (words) => {
+    setWrongWords(words);  // Update wrong words state in the parent component
+  };
+
   return (
     <div className="editor-container">
       <div className="editor-toolbar-container">
-        <EditorToolbar quillRef={quillRef} setPageSize={setPageSize} />
+        <QuillToolbar 
+        quillRef={quillRef} 
+        setPageSize={setPageSize} 
+        bloomFilter= {bloomFilter} 
+        setWrongWords={updateWrongWords}
+        />
       </div>
       <div className="editor-wrapper">
         <div className="relative">

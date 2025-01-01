@@ -16,8 +16,8 @@ import { Quill } from 'react-quill-new'
 import { ICON_LABELS_KANNADA } from '../../constants/formats'
 import { FONT_SIZES, FONTS } from '../../constants/Nudifonts'
 import { PAGE_SIZES } from '../../constants/pageSizes'
-import { underlineWordInEditor } from '../../services/editorService'
-import { getWrongWords } from '../../spellcheck/bloomFilter'
+import { refreshAndGetWrongWords } from '../../services/toolbarFunctions'
+import LoadingComponent from '../utils/LoadingComponent'
 import CustomSizeDialog from './CustomSizeDialog'
 const Size = Quill.import('formats/size')
 Size.whitelist = FONT_SIZES
@@ -29,12 +29,14 @@ Quill.register(Font, true)
 
 Quill.register('modules/resize', QuillResizeImage)
 
-export const QuillToolbar = ({ quillRef, setPageSize }) => {
+export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords }) => {
   const [pageSizeOption, setPageSizeOption] = useState('A4')
   const [prevPageSize, setPrevPageSize] = useState('A4')
   const [openModal, setOpenModal] = useState(false)
   const [fontOption, setFontOption] = useState(FONTS[0])
   const [sizeOption, setSizeOption] = useState(FONT_SIZES[2])
+
+  const [isLoading, setIsLoading] = useState(false) // For loading state
 
   const handlePageSizeChange = (e) => {
     const selectedSize = e.target.value
@@ -75,26 +77,27 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
       setOpenModal(false)
     }
   }
-
   const refreshButtonhandle = async () => {
-    if (!bloomFilter) {
-      console.error('BloomFilter not initialized')
-      return
-    }
-
+    setIsLoading(true)
     try {
-      const quill = quillRef.current?.getEditor()
-      const wrongWords = await getWrongWords(quill, bloomFilter)
-      if (wrongWords.length == 0) {
-        console.log('No Wrong Words to correct')
-        return
-      }
-      if (wrongWords) {
-        // Underline the wrong words in the editor
-        wrongWords.forEach((word) => underlineWordInEditor(quill, word))
-      }
+      const wrongwords = await refreshAndGetWrongWords({ quillRef, bloomFilter })
     } catch (error) {
       console.error('Error during refresh:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSpellcheck = async () => {
+    setIsLoading(true)
+    try {
+      const wrongwords = await refreshAndGetWrongWords({ quillRef, bloomFilter })
+      setWrongWords(wrongwords)
+      console.log('refreshAndGetWrongWords finished')
+    } catch (error) {
+      console.error('Error during spellcheck:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -216,7 +219,7 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
       </span>
 
       <span className="ql-formats">
-        <button onClick={refreshButtonhandle} className="ql-refresh-button">
+        <button onClick={handleSpellcheck} className="ql-refresh-button">
           <RefreshIcon />
         </button>
       </span>
@@ -267,6 +270,8 @@ export const QuillToolbar = ({ quillRef, setPageSize }) => {
       </span>
 
       <CustomSizeDialog open={openModal} onClose={handleCloseModal} onApply={applyCustomSize} />
+
+      {isLoading && <LoadingComponent />}
     </div>
   )
 }

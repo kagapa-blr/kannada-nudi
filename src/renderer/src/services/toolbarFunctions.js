@@ -1,3 +1,7 @@
+
+import { underlineWordInEditor } from '../services/editorService.js';
+import { getWrongWords } from '../spellcheck/bloomFilter.js';
+import { ignoreSingleChars } from './editorUtils.js';
 export const openFile = async () => {
     try {
         // Call the Electron API to open a file
@@ -74,5 +78,38 @@ export const saveFileAs = async (content) => {
     } catch (error) {
         console.error('Error saving file as:', error);
         alert('Failed to save file: ' + error.message);
+    }
+};
+
+export const spellcheck = async () => {
+
+}
+
+export const refreshAndGetWrongWords = async ({ quillRef, bloomFilter }) => {
+    try {
+        console.log("refreshAndGetWrongWords called");
+
+        const quill = quillRef.current?.getEditor();
+        if (!quill) {
+            console.error("Quill editor instance not found.");
+            return [];
+        }
+
+        // Fetch new wrong words (spellcheck the content again)
+        const wrongWordList = await getWrongWords(quill, bloomFilter)
+        if (wrongWordList && wrongWordList.length > 0) {
+            const filteredWords = ignoreSingleChars(wrongWordList);
+
+            // Underline new errors in the editor
+            filteredWords.forEach((word) => underlineWordInEditor(quill, word));
+
+            return filteredWords;
+        } else {
+            console.log("No wrong words found.");
+            return [];
+        }
+    } catch (error) {
+        console.error("Error in refreshing wrong words:", error);
+        return [];
     }
 };
