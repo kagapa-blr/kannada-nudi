@@ -219,31 +219,30 @@ const QuillEditor = () => {
     }
   }
 
-  const handlereplaceWord = (replacement) => {
+  const handleSuggestionReplace = (replacement) => {
     // Update errors and clickedWord state
     replaceWord({ quillRef, replacement, clickedWord })
     setWrongWords(wrongwords.filter((word) => word !== clickedWord))
     setClickedWord(null)
   }
 
-// Function to handle adding a word to the dictionary
-const handleAddToDictionary = async () => {
-  if (clickedWord) {
-    try {
-      // Wait for the addToDictionary function to complete
-      const isAdded = await addToDictionary(bloomCollection, clickedWord);
-      if (isAdded) {
-        // After successfully adding the word to the dictionary, remove it from the wrongWords list and clear clickedWord
-        ignoreAll({ quillRef, clickedWord });
-        setWrongWords(wrongwords.filter((word) => word !== clickedWord));
-        setClickedWord(null); // Reset clickedWord after successful operation
+  // Function to handle adding a word to the dictionary
+  const handleAddToDictionary = async () => {
+    if (clickedWord) {
+      try {
+        // Wait for the addToDictionary function to complete
+        const isAdded = await addToDictionary(bloomCollection, clickedWord)
+        if (isAdded) {
+          // After successfully adding the word to the dictionary, remove it from the wrongWords list and clear clickedWord
+          ignoreAll({ quillRef, clickedWord })
+          setWrongWords(wrongwords.filter((word) => word !== clickedWord))
+          setClickedWord(null) // Reset clickedWord after successful operation
+        }
+      } catch (error) {
+        console.error('Error adding word to dictionary:', error)
       }
-    } catch (error) {
-      console.error('Error adding word to dictionary:', error);
     }
   }
-};
-
 
   const replaceAll = () => {
     if (clickedWord) {
@@ -252,42 +251,15 @@ const handleAddToDictionary = async () => {
   }
 
   const handleReplaceAll = () => {
-    const editor = quillRef.current.getEditor()
-    const fullText = editor.getText()
-    const clickedWordLength = clickedWord.length
-
-    // Create a regex pattern that matches the clickedWord surrounded by optional special characters
-    const regex = new RegExp(`(\\W|^)(${clickedWord})(\\W|$)`, 'g')
-
-    // Store replacements to avoid altering indices during the loop
-    let match
-    const replacements = [] // Array to store replacements
-
-    // Find all matches
-    while ((match = regex.exec(fullText)) !== null) {
-      const startIndex = match.index + match[1].length // Start of the clickedWord (after any special character)
-
-      // Push the index and replacementWord into the array
-      replacements.push({
-        startIndex,
-        word: replacementWord,
-        clickedWordLength // Length of the clickedWord to delete later
-      })
-    }
-
-    // Replace matches in reverse order to avoid index shifting
-    replacements.reverse().forEach(({ startIndex, word, clickedWordLength }) => {
-      editor.deleteText(startIndex, clickedWordLength) // Remove the clickedWord
-      editor.insertText(startIndex, word) // Insert the replacementWord without formats
-    })
-
+    const replacement = replacementWord
+    replaceWord({ quillRef, replacement, clickedWord })
     // Reset modal and state
     setIsModalOpen(false)
     setClickedWord(null)
     setReplacementWord('')
   }
 
-  const handleignoreAll = () => {
+  const handleIgnoreAll = () => {
     ignoreAll({ quillRef, clickedWord })
     setClickedWord(null)
     setWrongWords(wrongwords.filter((word) => word !== clickedWord))
@@ -392,10 +364,10 @@ const handleAddToDictionary = async () => {
           suggestions={suggestions}
           tooltipPosition={tooltipPosition}
           setClickedWord={setClickedWord}
-          replaceWord={handlereplaceWord}
+          replaceWord={handleSuggestionReplace}
           addDictionary={handleAddToDictionary}
           replaceAll={replaceAll}
-          ignoreAll={handleignoreAll}
+          ignoreAll={handleIgnoreAll}
         />
       )}
 
