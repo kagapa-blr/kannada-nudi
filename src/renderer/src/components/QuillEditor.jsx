@@ -7,7 +7,7 @@ import { modules } from '../constants/editorModules'
 import { formats } from '../constants/formats'
 import { cleanWord, getWordAtPosition, underlineWordInEditor } from '../services/editorService'
 import { ignoreSingleChars, isSingleCharacter } from '../services/editorUtils'
-import { addToDictionary, ignoreAll } from '../services/toolTipOperations.js'
+import { addToDictionary, ignoreAll, replaceWord } from '../services/toolTipOperations.js'
 import { getWrongWords, loadBloomFilter } from '../spellcheck/bloomFilter'
 import SymSpellService from '../spellcheck/symspell'
 import Page from './Page'
@@ -219,55 +219,34 @@ const QuillEditor = () => {
     }
   }
 
-  const replaceWord = (replacement) => {
-    const quill = quillRef.current.getEditor()
-    const text = quill.getText()
-    const clickedWordLength = clickedWord.length
-
-    // Create a regex pattern that matches the clickedWord surrounded by optional special characters
-    const regex = new RegExp(`(\\W|^)(${clickedWord})(\\W|$)`, 'g')
-
-    let match
-    const positions = []
-
-    // Find all occurrences and store their positions
-    while ((match = regex.exec(text)) !== null) {
-      const startIndex = match.index + match[1].length // Start of the clickedWord (after any special character)
-      const length = clickedWordLength // Length of the clickedWord
-
-      // Store the position for replacement
-      positions.push({ startIndex, length })
-    }
-
-    // Replace all occurrences in reverse order to prevent index shifting
-    for (let i = positions.length - 1; i >= 0; i--) {
-      const { startIndex, length } = positions[i]
-
-      // Remove the original word
-      quill.deleteText(startIndex, length)
-      // Insert the replacement word
-      quill.insertText(startIndex, replacement)
-    }
-
+  const handlereplaceWord = (replacement) => {
     // Update errors and clickedWord state
+    replaceWord({ quillRef, replacement, clickedWord })
     setWrongWords(wrongwords.filter((word) => word !== clickedWord))
     setClickedWord(null)
   }
 
-  const handleaddToDictionary = async () => {
-    if (clickedWord) {
-      try {
-        console.log('add to dictionary called', clickedWord)
-        addToDictionary(bloomCollection, clickedWord)
-      } catch (error) {
-        console.error('Error adding word to dictionary:', error)
+// Function to handle adding a word to the dictionary
+const handleAddToDictionary = async () => {
+  if (clickedWord) {
+    try {
+      // Wait for the addToDictionary function to complete
+      const isAdded = await addToDictionary(bloomCollection, clickedWord);
+      if (isAdded) {
+        // After successfully adding the word to the dictionary, remove it from the wrongWords list and clear clickedWord
+        ignoreAll({ quillRef, clickedWord });
+        setWrongWords(wrongwords.filter((word) => word !== clickedWord));
+        setClickedWord(null); // Reset clickedWord after successful operation
       }
+    } catch (error) {
+      console.error('Error adding word to dictionary:', error);
     }
   }
+};
+
 
   const replaceAll = () => {
     if (clickedWord) {
-      // console.log("replace all called");
       setIsModalOpen(true)
     }
   }
@@ -413,8 +392,8 @@ const QuillEditor = () => {
           suggestions={suggestions}
           tooltipPosition={tooltipPosition}
           setClickedWord={setClickedWord}
-          replaceWord={replaceWord}
-          addDictionary={handleaddToDictionary}
+          replaceWord={handlereplaceWord}
+          addDictionary={handleAddToDictionary}
           replaceAll={replaceAll}
           ignoreAll={handleignoreAll}
         />
