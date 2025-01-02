@@ -1,8 +1,10 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import os from 'os';
 import { join } from 'path';
+import { exec } from 'child_process';
 import icon from '../../resources/assets/logo.png?asset';
 import { setupFileOperations } from './lib/fileops.js';
+
 let mainWindow;
 
 function createWindow() {
@@ -15,7 +17,6 @@ function createWindow() {
       contextIsolation: true,
       sandbox: true,
     },
-
   });
 
   mainWindow.maximize();
@@ -42,9 +43,40 @@ function createWindow() {
   });
 }
 
+function executeBackgroundProcess() {
+  if (process.platform === 'win32') {
+    const arch = process.arch; // 'x32' or 'x64'
+    if (arch === 'ia32' || arch === 'x64') {
+
+      const exePath = join(__dirname, '../../resources/kannadaKeyboard.exe');
+      const child = exec(`"${exePath}"`, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error executing .exe: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.error(`Error output: ${stderr}`);
+          return;
+        }
+        console.log(`Output: ${stdout}`);
+      });
+
+      // Optional: Log when the process exits
+      child.on('exit', (code) => {
+        console.log(`Background process exited with code ${code}`);
+      });
+    } else {
+      console.log('Skipping execution: Unsupported Windows architecture.');
+    }
+  } else {
+    console.log('Background process execution is skipped as the platform is not Windows.');
+  }
+}
+
 app.whenReady().then(() => {
   createWindow();
   setupFileOperations();
+  executeBackgroundProcess(); // Start the background process only on Windows with supported architectures
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
