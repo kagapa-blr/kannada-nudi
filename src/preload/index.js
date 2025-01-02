@@ -87,6 +87,8 @@
         console.error('Error getting window title:', error);
         return { error: 'Failed to get window title' };
       }
-    }
-
+    },
+    zoomIn: () => ipcRenderer.send('zoom:in'),
+    zoomOut: () => ipcRenderer.send('zoom:out'),
+    resetZoom: () => ipcRenderer.send('zoom:reset'),
   });

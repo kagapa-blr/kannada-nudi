@@ -73,10 +73,31 @@ function executeBackgroundProcess() {
   }
 }
 
+function setupZoomHandlers() {
+  ipcMain.on('zoom:in', () => {
+    if (mainWindow) {
+      const currentZoom = mainWindow.webContents.getZoomFactor();
+      mainWindow.webContents.setZoomFactor(currentZoom + 0.1);
+    }
+  });
+
+  ipcMain.on('zoom:out', () => {
+    if (mainWindow) {
+      const currentZoom = mainWindow.webContents.getZoomFactor();
+      mainWindow.webContents.setZoomFactor(currentZoom - 0.1);
+    }
+  });
+
+  ipcMain.on('zoom:reset', () => {
+    if (mainWindow) mainWindow.webContents.setZoomFactor(1);
+  });
+}
+
 app.whenReady().then(() => {
   createWindow();
   setupFileOperations();
-  executeBackgroundProcess(); // Start the background process only on Windows with supported architectures
+  executeBackgroundProcess();
+  setupZoomHandlers();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
