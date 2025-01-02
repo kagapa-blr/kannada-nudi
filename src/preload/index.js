@@ -96,5 +96,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   showConfirmation: (message) => {
     return ipcRenderer.invoke('show-confirmation', message);
   },
+  searchInWindow: (word) => {
+    ipcRenderer.send('search:inWindow', word);
+  },
 
 });

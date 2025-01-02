@@ -11,7 +11,7 @@ import ZoomInIcon from '@mui/icons-material/ZoomIn'
 import ZoomOutIcon from '@mui/icons-material/ZoomOut'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import QuillResizeImage from 'quill-resize-image'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Quill } from 'react-quill-new'
 import { ICON_LABELS_KANNADA } from '../../constants/formats'
 import { FONT_SIZES, FONTS } from '../../constants/Nudifonts'
@@ -19,9 +19,7 @@ import { PAGE_SIZES } from '../../constants/pageSizes'
 import { refreshAndGetWrongWords } from '../../services/toolbarFunctions'
 import LoadingComponent from '../utils/LoadingComponent'
 import CustomSizeDialog from './CustomSizeDialog'
-
-
-
+import SearchModal from './SearchModal'
 const Size = Quill.import('formats/size')
 Size.whitelist = FONT_SIZES
 Quill.register(Size, true)
@@ -41,7 +39,12 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const [zoomLevel, setZoomLevel] = useState(1);
+  const [zoomLevel, setZoomLevel] = useState(1)
+  const [searchWord, setSearchWord] = useState('')
+
+  const [searchModal, setsearchModal] = useState(false)
+  const openSearchModal = () => setsearchModal(true)
+  const closeSearchModal = () => setsearchModal(false)
 
   const handlePageSizeChange = (e) => {
     const selectedSize = e.target.value
@@ -106,33 +109,36 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
     }
   }
 
-
-
   const handleCloseModal = () => {
     setPageSizeOption(prevPageSize)
     setOpenModal(false)
   }
 
+  // Zoom In
+  const handleZoomIn = () => {
+    setZoomLevel((prev) => prev + 0.1)
+    window.electronAPI.zoomIn()
+  }
 
-    // Zoom In
-    const handleZoomIn = () => {
-      setZoomLevel((prev) => prev + 0.1);
-      window.electronAPI.zoomIn();
-    };
-  
-    // Zoom Out
-    const handleZoomOut = () => {
-      setZoomLevel((prev) => Math.max(0.1, prev - 0.1));
-      window.electronAPI.zoomOut();
-    };
-  
-    // Reset Zoom
-    const handleResetZoom = () => {
-      setZoomLevel(1);
-      window.electronAPI.resetZoom();
-    };
+  // Zoom Out
+  const handleZoomOut = () => {
+    setZoomLevel((prev) => Math.max(0.1, prev - 0.1))
+    window.electronAPI.zoomOut()
+  }
 
+  // Reset Zoom
+  const handleResetZoom = () => {
+    setZoomLevel(1)
+    window.electronAPI.resetZoom()
+  }
 
+  const handleFindword = () => {
+    if (searchWord.trim()) {
+      window.electronAPI.searchInWindow(searchWord) // Send search request to main process
+    } else {
+      console.log('Search input is empty')
+    }
+  }
 
   return (
     <>
@@ -283,7 +289,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
         </span>
         <span className="ql-formats">
           <button
-            onClick={refreshButtonhandle}
+            onClick={openSearchModal}
             className="ql-searchWord-button"
             title={ICON_LABELS_KANNADA.searchWord}
           >
@@ -302,6 +308,14 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
 
         <CustomSizeDialog open={openModal} onClose={handleCloseModal} onApply={applyCustomSize} />
       </div>
+
+      <SearchModal
+        isModalOpen={searchModal}
+        closeModal={closeSearchModal}
+        setSearchWord={setSearchWord}
+        searchWord={searchWord}
+        onSearch={handleFindword} // Pass the search handler
+      />
     </>
   )
 }

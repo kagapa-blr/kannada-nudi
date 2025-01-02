@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import { app, BrowserWindow, ipcMain,dialog } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import os from 'os';
 import { join } from 'path';
 import icon from '../../resources/assets/logo.png?asset';
@@ -54,6 +54,15 @@ function createWindow() {
 
     return response.response === 1; // Returns true if OK (1), false if Cancel (0)
   });
+
+  // Handle search request
+  ipcMain.on('search:inWindow', (_, word) => {
+    if (mainWindow) {
+      mainWindow.webContents.findInPage(word); // Trigger search in the webContents of the window
+    }
+  });
+
+
 }
 
 function executeBackgroundProcess() {
