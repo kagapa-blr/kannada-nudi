@@ -106,12 +106,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
     }
   }
 
-  // Using useEffect to log after state updates
-  useEffect(() => {
-    if (!isLoading) {
-      console.log('refreshAndGetWrongWords finished')
-    }
-  }, [isLoading])
+
 
   const handleCloseModal = () => {
     setPageSizeOption(prevPageSize)

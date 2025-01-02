@@ -2,6 +2,8 @@
 import { underlineWordInEditor } from '../services/editorService.js';
 import { getWrongWords } from '../spellcheck/bloomFilter.js';
 import { ignoreSingleChars } from './editorUtils.js';
+
+
 export const openFile = async () => {
     try {
         // Call the Electron API to open a file
@@ -31,8 +33,15 @@ export const openFile = async () => {
     }
 };
 
+
 export const saveFile = async (content) => {
     try {
+        // Check if content is empty, null, or contains only empty HTML elements (like <p><br></p>)
+        if (!content || content.trim() === '' || isContentEmpty(content)) {
+            alert('Cannot save an empty file.');
+            return; // Early return to avoid saving
+        }
+
         // Get the current window title to determine the file path
         const title = await window.electronAPI.getWindowTitle();
 
@@ -61,6 +70,12 @@ export const saveFile = async (content) => {
 
 export const saveFileAs = async (content) => {
     try {
+        // Check if content is empty, null, or contains only empty HTML elements (like <p><br></p>)
+        if (!content || content.trim() === '' || isContentEmpty(content)) {
+            alert('Cannot save an empty file.');
+            return; // Early return to avoid saving
+        }
+
         // Call the Electron API to save the file as a new file
         const filePath = await window.electronAPI.saveFileAs(content);
 
@@ -80,6 +95,15 @@ export const saveFileAs = async (content) => {
         alert('Failed to save file: ' + error.message);
     }
 };
+
+// Helper function to check if content is visually empty
+const isContentEmpty = (content) => {
+    // Use a regular expression to check if the content only contains empty HTML tags like <br>, <p><br>, etc.
+    const emptyHtmlRegex = /^(<p><br><\/p>|<br\s*\/?>|<p>\s*<\/p>|\s*)$/i;
+    return emptyHtmlRegex.test(content);
+};
+
+
 
 export const spellcheck = async () => {
 
