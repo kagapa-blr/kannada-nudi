@@ -19,6 +19,9 @@ import { PAGE_SIZES } from '../../constants/pageSizes'
 import { refreshAndGetWrongWords } from '../../services/toolbarFunctions'
 import LoadingComponent from '../utils/LoadingComponent'
 import CustomSizeDialog from './CustomSizeDialog'
+
+
+
 const Size = Quill.import('formats/size')
 Size.whitelist = FONT_SIZES
 Quill.register(Size, true)
@@ -37,6 +40,8 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
   const [sizeOption, setSizeOption] = useState(FONT_SIZES[2])
 
   const [isLoading, setIsLoading] = useState(false)
+
+  const [zoomLevel, setZoomLevel] = useState(1);
 
   const handlePageSizeChange = (e) => {
     const selectedSize = e.target.value
@@ -112,6 +117,27 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
     setPageSizeOption(prevPageSize)
     setOpenModal(false)
   }
+
+
+    // Zoom In
+    const handleZoomIn = () => {
+      setZoomLevel((prev) => prev + 0.1);
+      window.electronAPI.zoomIn();
+    };
+  
+    // Zoom Out
+    const handleZoomOut = () => {
+      setZoomLevel((prev) => Math.max(0.1, prev - 0.1));
+      window.electronAPI.zoomOut();
+    };
+  
+    // Reset Zoom
+    const handleResetZoom = () => {
+      setZoomLevel(1);
+      window.electronAPI.resetZoom();
+    };
+
+
 
   return (
     <>
@@ -244,7 +270,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
         </span>
         <span className="ql-formats">
           <button
-            onClick={refreshButtonhandle}
+            onClick={handleZoomIn}
             className="ql-ZoomIn-button"
             title={ICON_LABELS_KANNADA.zoomIn}
           >
@@ -253,7 +279,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
         </span>
         <span className="ql-formats">
           <button
-            onClick={refreshButtonhandle}
+            onClick={handleZoomOut}
             className="ql-ZoomOut-button"
             title={ICON_LABELS_KANNADA.zoomOut}
           >
