@@ -1,7 +1,7 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { exec } from 'child_process';
+import { app, BrowserWindow, ipcMain,dialog } from 'electron';
 import os from 'os';
 import { join } from 'path';
-import { exec } from 'child_process';
 import icon from '../../resources/assets/logo.png?asset';
 import { setupFileOperations } from './lib/fileops.js';
 
@@ -40,6 +40,19 @@ function createWindow() {
       return mainWindow.getTitle(); // Retrieve the current window title
     }
     return null; // Return null if the window is not available
+  });
+
+  // Add the confirmation dialog IPC handler
+  ipcMain.handle('show-confirmation', async (_, message) => {
+    const response = await dialog.showMessageBox(mainWindow, {
+      type: 'question',
+      buttons: ['Cancel', 'OK'],
+      defaultId: 1,
+      cancelId: 0,
+      message: message,
+    });
+
+    return response.response === 1; // Returns true if OK (1), false if Cancel (0)
   });
 }
 
@@ -113,3 +126,4 @@ app.on('window-all-closed', () => {
 // Utility handlers
 ipcMain.handle('get:cwd', () => process.cwd());
 ipcMain.handle('get:rootDir', () => join(os.homedir(), 'kannada-nudi'));
+

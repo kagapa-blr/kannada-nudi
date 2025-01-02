@@ -35,6 +35,12 @@ export const openFile = async () => {
 
 
 export const saveFile = async (content) => {
+    const userConfirmed = await window.electronAPI.showConfirmation('Are you sure you want to save the file?');
+    if (!userConfirmed) {
+        console.log('user canclled to save the file');
+        // Proceed with saving the file
+        return
+    }
     try {
         // Check if content is empty, null, or contains only empty HTML elements (like <p><br></p>)
         if (!content || content.trim() === '' || isContentEmpty(content)) {
