@@ -1,5 +1,19 @@
+import QuillResizeImage from 'quill-resize-image';
+import { Quill } from 'react-quill-new';
+import { FONT_SIZES, FONTS } from '../constants/Nudifonts.js';
 import { openFile, saveFile, saveFileAs } from '../services/toolbarFunctions.js';
 import { PAGE_SIZES } from "./pageSizes";
+
+//Register
+Quill.register('modules/resize', QuillResizeImage)
+const Size = Quill.import('formats/size')
+Size.whitelist = FONT_SIZES
+Quill.register(Size, true)
+
+export const Font = Quill.import('formats/font')
+Font.whitelist = FONTS
+Quill.register(Font, true)
+
 
 // Undo and redo functions for the Custom Toolbar
 function undoChange() {
@@ -10,10 +24,10 @@ function redoChange() {
     this.quill.history.redo();
 }
 
-const ZoomOutButton = ()=>{
+const ZoomOutButton = () => {
     console.log('ZoomOut-button')
 }
-const ZoomInButton = ()=>{
+const ZoomInButton = () => {
     console.log('ZoomInButton')
 }
 
@@ -45,9 +59,9 @@ export const modules = {
             },
             "refresh-button": refreshButton,
             "searchWord-button": findWordinWindow,
-            "ZoomOut-button":ZoomOutButton,
-            "ZoomIn-button":ZoomInButton,
-            "Spellcheck-button":spellcheckButton,
+            "ZoomOut-button": ZoomOutButton,
+            "ZoomIn-button": ZoomInButton,
+            "Spellcheck-button": spellcheckButton,
             font: function (value) {
                 if (value) {
                     this.quill.format("font", value);

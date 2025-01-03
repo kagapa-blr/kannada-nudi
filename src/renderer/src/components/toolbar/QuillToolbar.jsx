@@ -10,9 +10,9 @@ import UndoIcon from '@mui/icons-material/Undo'
 import ZoomInIcon from '@mui/icons-material/ZoomIn'
 import ZoomOutIcon from '@mui/icons-material/ZoomOut'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import QuillResizeImage from 'quill-resize-image'
+
 import React, { useState } from 'react'
-import { Quill } from 'react-quill-new'
+
 import { ICON_LABELS_KANNADA } from '../../constants/formats'
 import { FONT_SIZES, FONTS } from '../../constants/Nudifonts'
 import { PAGE_SIZES } from '../../constants/pageSizes'
@@ -22,15 +22,8 @@ import CustomSizeDialog from './CustomSizeDialog'
 import SearchModal from './SearchModal'
 
 
-const Size = Quill.import('formats/size')
-Size.whitelist = FONT_SIZES
-Quill.register(Size, true)
 
-export const Font = Quill.import('formats/font')
-Font.whitelist = FONTS
-Quill.register(Font, true)
 
-Quill.register('modules/resize', QuillResizeImage)
 
 export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords }) => {
   const [pageSizeOption, setPageSizeOption] = useState('A4')

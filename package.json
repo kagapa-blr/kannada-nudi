@@ -27,6 +27,7 @@
     "bloom-filter-new": "^1.0.2",
     "electron-updater": "^6.1.7",
     "node-symspell-new": "^0.1.6",
+    "quill-better-table": "^1.2.10",
     "quill-resize-image": "^1.0.5",
     "react-quill-new": "^3.3.3"
   },
