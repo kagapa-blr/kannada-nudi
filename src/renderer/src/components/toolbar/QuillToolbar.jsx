@@ -20,6 +20,8 @@ import { refreshAndGetWrongWords } from '../../services/toolbarFunctions'
 import LoadingComponent from '../utils/LoadingComponent'
 import CustomSizeDialog from './CustomSizeDialog'
 import SearchModal from './SearchModal'
+
+
 const Size = Quill.import('formats/size')
 Size.whitelist = FONT_SIZES
 Quill.register(Size, true)
@@ -314,7 +316,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
         closeModal={closeSearchModal}
         setSearchWord={setSearchWord}
         searchWord={searchWord}
-        onSearch={handleFindword} // Pass the search handler
+        onSearch={handleFindword} 
       />
     </>
   )

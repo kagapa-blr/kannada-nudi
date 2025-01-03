@@ -10,11 +10,24 @@ function redoChange() {
     this.quill.history.redo();
 }
 
+const ZoomOutButton = ()=>{
+    console.log('ZoomOut-button')
+}
+const ZoomInButton = ()=>{
+    console.log('ZoomInButton')
+}
+
+
 // Custom Refresh Button Handler
 const refreshButton = () => {
     console.log('Refresh button clicked. Define your behavior here.');
 };
-
+const findWordinWindow = () => {
+    console.log('search functionality implemented separately')
+}
+const spellcheckButton = () => {
+    console.log('search functionality implemented separately')
+}
 // Modules object for setting up the Quill editor
 export const modules = {
     toolbar: {
@@ -31,7 +44,10 @@ export const modules = {
                 }
             },
             "refresh-button": refreshButton,
-            // Add custom handlers for font and size
+            "searchWord-button": findWordinWindow,
+            "ZoomOut-button":ZoomOutButton,
+            "ZoomIn-button":ZoomInButton,
+            "Spellcheck-button":spellcheckButton,
             font: function (value) {
                 if (value) {
                     this.quill.format("font", value);
