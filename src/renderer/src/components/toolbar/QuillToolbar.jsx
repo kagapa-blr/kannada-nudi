@@ -1,3 +1,4 @@
+import BackupTableIcon from '@mui/icons-material/BackupTable'
 import FolderOpenIcon from '@mui/icons-material/FolderOpen'
 import RedoIcon from '@mui/icons-material/Redo'
 import RefreshIcon from '@mui/icons-material/Refresh'
@@ -10,7 +11,6 @@ import UndoIcon from '@mui/icons-material/Undo'
 import ZoomInIcon from '@mui/icons-material/ZoomIn'
 import ZoomOutIcon from '@mui/icons-material/ZoomOut'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-
 import React, { useState } from 'react'
 
 import { ICON_LABELS_KANNADA } from '../../constants/formats'
@@ -20,10 +20,6 @@ import { refreshAndGetWrongWords } from '../../services/toolbarFunctions'
 import LoadingComponent from '../utils/LoadingComponent'
 import CustomSizeDialog from './CustomSizeDialog'
 import SearchModal from './SearchModal'
-
-
-
-
 
 export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords }) => {
   const [pageSizeOption, setPageSizeOption] = useState('A4')
@@ -300,6 +296,11 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
             <SpellcheckIcon fontSize="large" />
           </button>
         </span>
+        <span className="ql-formats">
+          <button className="ql-insert-table" title="insert table">
+            <BackupTableIcon />
+          </button>
+        </span>
 
         <CustomSizeDialog open={openModal} onClose={handleCloseModal} onApply={applyCustomSize} />
       </div>
@@ -309,7 +310,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
         closeModal={closeSearchModal}
         setSearchWord={setSearchWord}
         searchWord={searchWord}
-        onSearch={handleFindword} 
+        onSearch={handleFindword}
       />
     </>
   )
