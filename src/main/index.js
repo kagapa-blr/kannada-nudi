@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import os from 'os';
 import { join } from 'path';
-import icon from '../../src/renderer/src/assets/logo.png';
+import icon from '@/assets/logo.png';
 import { setupFileOperations } from './lib/fileops.js';
 import SpeechToText from './lib/speechToText';
 

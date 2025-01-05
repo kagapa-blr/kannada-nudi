@@ -40,3 +40,8 @@ npmRebuild: false
 publish:
   provider: generic
   url: https://example.com/auto-updates
+
+# Add this section for extra resources
+extraResources:
+  - from: resources/config/nudiconfig.json
+    to: configuration/nudiconfig.json

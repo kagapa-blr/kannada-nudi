@@ -8,7 +8,8 @@ export default defineConfig({
     resolve: {
       alias: {
         '@/lib': resolve('src/main/lib'),
-        '@shared': resolve('src/shared')
+        '@shared': resolve('src/shared'),
+        '@/assets': resolve('src/renderer/src/assets'),
       }
     }
   },
@@ -24,7 +25,7 @@ export default defineConfig({
         '@/assets': resolve('src/renderer/src/assets'),
         '@/components': resolve('src/renderer/src/components'),
         '@/mocks': resolve('src/renderer/src/mocks'),
-        '@/lib': resolve('src/main/lib') // Add the alias here
+        '@/lib': resolve('src/main/lib')
       }
     },
     plugins: [react()]
