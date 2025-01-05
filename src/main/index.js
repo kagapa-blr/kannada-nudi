@@ -4,6 +4,7 @@ import os from 'os';
 import { join } from 'path';
 import icon from '../../resources/assets/logo.png?asset';
 import { setupFileOperations } from './lib/fileops.js';
+import SpeechToText from './lib/speechToText';
 
 let mainWindow;
 
@@ -61,8 +62,6 @@ function createWindow() {
       mainWindow.webContents.findInPage(word); // Trigger search in the webContents of the window
     }
   });
-
-
 }
 
 function executeBackgroundProcess() {
@@ -115,11 +114,34 @@ function setupZoomHandlers() {
   });
 }
 
+
+// Set up the voice-to-text API
+function setupSpeechToTextAPI() {
+  const speechToText = new SpeechToText();
+  ipcMain.handle('start:voiceToText', async () => {
+    if (!speechToText.isSupported) {
+      console.error('Speech-to-Text API is not supported in this environment.');
+      return;
+    }
+
+    try {
+      // const transcript = await speechToText.startListening();
+      // return { success: true, transcript };
+      console.log('Speech to text will be implemented very soon!')
+    } catch (error) {
+      console.error('Error during speech-to-text:', error);
+      return { success: false, error: error.message };
+    }
+  });
+}
+
+
 app.whenReady().then(() => {
   createWindow();
   setupFileOperations();
   executeBackgroundProcess();
   setupZoomHandlers();
+  setupSpeechToTextAPI(); 
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -135,4 +157,3 @@ app.on('window-all-closed', () => {
 // Utility handlers
 ipcMain.handle('get:cwd', () => process.cwd());
 ipcMain.handle('get:rootDir', () => join(os.homedir(), 'kannada-nudi'));
-

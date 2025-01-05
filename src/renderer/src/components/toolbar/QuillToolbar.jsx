@@ -12,11 +12,11 @@ import ZoomInIcon from '@mui/icons-material/ZoomIn'
 import ZoomOutIcon from '@mui/icons-material/ZoomOut'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import React, { useState } from 'react'
-
 import { ICON_LABELS_KANNADA } from '../../constants/formats'
 import { FONT_SIZES, FONTS } from '../../constants/Nudifonts'
 import { PAGE_SIZES } from '../../constants/pageSizes'
 import { refreshAndGetWrongWords } from '../../services/toolbarFunctions'
+import InformationModal from '../utils/InformationModal'
 import LoadingComponent from '../utils/LoadingComponent'
 import CustomSizeDialog from './CustomSizeDialog'
 import SearchModal from './SearchModal'
@@ -32,11 +32,16 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
 
   const [zoomLevel, setZoomLevel] = useState(1)
   const [searchWord, setSearchWord] = useState('')
-
+  const [infoModalOpen, setInfoModalOpen] = useState(false)
   const [searchModal, setsearchModal] = useState(false)
   const openSearchModal = () => setsearchModal(true)
   const closeSearchModal = () => setsearchModal(false)
 
+  const handleinfoOpenModal = () => setInfoModalOpen(true)
+  const handleinfoCloseModal = () => setInfoModalOpen(false)
+
+  const message =
+    'ಧ್ವನಿಯಿಂದ ಪಠ್ಯದ ಕಾರ್ಯವು ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ. ಇತ್ತೀಚಿನ ನವೀಕರಣಗಳಿಗಾಗಿ ದಯವಿಟ್ಟು ನಮ್ಮ ಅಧಿಕೃತ ವೆಬ್‌ಸೈಟ್‌ಗೆ ಭೇಟಿ ನೀಡಿ'
   const handlePageSizeChange = (e) => {
     const selectedSize = e.target.value
     setPageSizeOption(selectedSize)
@@ -84,6 +89,16 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
       console.error('Error during refresh:', error)
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleVoiceToText = async () => {
+    try {
+      //const result = await window.electronAPI.startSpeechRecognition()
+      setInfoModalOpen(true)
+    } catch (error) {
+      console.error('Error while starting speech recognition:', error)
+      alert(message)
     }
   }
 
@@ -253,8 +268,8 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
         </span>
         <span className="ql-formats">
           <button
-            onClick={refreshButtonhandle}
-            className="ql-refresh-button"
+            onClick={handleVoiceToText}
+            className="ql-voiceTotext"
             title={ICON_LABELS_KANNADA.voiceToText}
           >
             <SettingsVoiceIcon />
@@ -311,6 +326,13 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
         setSearchWord={setSearchWord}
         searchWord={searchWord}
         onSearch={handleFindword}
+      />
+
+      <InformationModal
+        open={infoModalOpen}
+        onClose={handleinfoCloseModal}
+        title="ಮಾಹಿತಿ"
+        message={message}
       />
     </>
   )

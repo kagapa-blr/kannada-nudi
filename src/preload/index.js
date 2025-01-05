@@ -100,4 +100,16 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('search:inWindow', word);
   },
 
+  startSpeechRecognition: async () => {
+    try {
+      // const result = await ipcRenderer.invoke('start:voiceToText');
+      // return result;
+      console.log('startSpeechRecognition API not Available!')
+      
+    } catch (error) {
+      console.error('Error in starting speech recognition:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
 });

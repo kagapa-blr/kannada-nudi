@@ -51,6 +51,7 @@ const handlers = {
     "Spellcheck-button": () => {
         console.log('Spellcheck functionality implemented separately.');
     },
+    voiceTotext: () => { },
     font: function (value) {
         if (value) {
             this.quill.format("font", value);
