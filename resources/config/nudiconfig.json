@@ -1,6 +1,13 @@
-
-
 {
+  "dev": {
+    "baseResourcePathLinux": "/home/rpawar/kannada-nudi/resources",
+    "baseResourcePathMac": "/Users/rpawar/kannada-nudi/resources",
+    "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources",
+    "autoSavingTime": 3000,
+    "welcomeNoteFilename": "kannadaNudi.txt",
+    "fileEncoding": "utf8"
+  },
+  "prod": {
     "baseResourcePathLinux": "/home/rpawar/kannada-nudi/resources",
     "baseResourcePathMac": "/Users/rpawar/kannada-nudi/resources",
     "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources",
@@ -8,4 +15,4 @@
     "welcomeNoteFilename": "kannadaNudi.txt",
     "fileEncoding": "utf8"
   }
-  
+}

@@ -43,5 +43,5 @@ publish:
 
 # Add this section for extra resources
 extraResources:
-  - from: resources/config/nudiconfig.json
-    to: configuration/nudiconfig.json
+  - from: resources/
+    to: nudiconfig/
