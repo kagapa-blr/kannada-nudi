@@ -1,8 +1,7 @@
-//src/preload/index.js
-
 import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  // Open a file and get its content
   openFile: async () => {
     try {
       const result = await ipcRenderer.invoke('file:open');
@@ -14,6 +13,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
   },
 
+  // Save content as a new file
   saveFileAs: async (content) => {
     try {
       const filePath = await ipcRenderer.invoke('file:saveAs', content);
@@ -25,6 +25,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
   },
 
+  // Save content to an existing file
   saveFile: async (filePath, content) => {
     try {
       const result = await ipcRenderer.invoke('file:save', filePath, content);
@@ -36,6 +37,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
   },
 
+  // Read a file and get its content
   readFile: async (filePath) => {
     try {
       return await ipcRenderer.invoke('file:read', filePath);
@@ -45,6 +47,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
   },
 
+  // Append content to a file
   appendContent: async (filePath, content) => {
     try {
       const result = await ipcRenderer.invoke('file:append', filePath, content);
@@ -56,6 +59,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
   },
 
+  // Get the current working directory
   getCwd: async () => {
     try {
       return await ipcRenderer.invoke('get:cwd');
@@ -65,6 +69,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
   },
 
+  // Get the root directory
   getRootDir: async () => {
     try {
       return await ipcRenderer.invoke('get:rootDir');
@@ -74,12 +79,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
   },
 
-
-  // Correctly expose the setWindowTitle function
+  // Set the window title
   setWindowTitle: (title) => {
     ipcRenderer.send('set:title', title);
   },
 
+  // Get the current window title
   getWindowTitle: async () => {
     try {
       return await ipcRenderer.invoke('get:title');
@@ -88,28 +93,34 @@ contextBridge.exposeInMainWorld('electronAPI', {
       return { error: 'Failed to get window title' };
     }
   },
+
+  // Zoom in
   zoomIn: () => ipcRenderer.send('zoom:in'),
+
+  // Zoom out
   zoomOut: () => ipcRenderer.send('zoom:out'),
+
+  // Reset zoom
   resetZoom: () => ipcRenderer.send('zoom:reset'),
 
-  // Expose the confirmation dialog function
+  // Show a confirmation dialog
   showConfirmation: (message) => {
     return ipcRenderer.invoke('show-confirmation', message);
   },
+
+  // Search for a word in the window
   searchInWindow: (word) => {
     ipcRenderer.send('search:inWindow', word);
   },
 
+  // Start speech recognition (placeholder)
   startSpeechRecognition: async () => {
     try {
-      // const result = await ipcRenderer.invoke('start:voiceToText');
-      // return result;
-      console.log('startSpeechRecognition API not Available!')
-      
+      console.log('startSpeechRecognition API not available!');
+      return { success: false, error: 'Speech recognition not implemented' };
     } catch (error) {
       console.error('Error in starting speech recognition:', error);
       return { success: false, error: error.message };
     }
   },
-
 });
