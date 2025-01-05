@@ -27,7 +27,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
   const [openModal, setOpenModal] = useState(false)
   const [fontOption, setFontOption] = useState(FONTS[0])
   const [sizeOption, setSizeOption] = useState(FONT_SIZES[2])
-
+  const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   const [zoomLevel, setZoomLevel] = useState(1)
@@ -40,8 +40,6 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
   const handleinfoOpenModal = () => setInfoModalOpen(true)
   const handleinfoCloseModal = () => setInfoModalOpen(false)
 
-  const message =
-    'ಧ್ವನಿಯಿಂದ ಪಠ್ಯದ ಕಾರ್ಯವು ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ. ಇತ್ತೀಚಿನ ನವೀಕರಣಗಳಿಗಾಗಿ ದಯವಿಟ್ಟು ನಮ್ಮ ಅಧಿಕೃತ ವೆಬ್‌ಸೈಟ್‌ಗೆ ಭೇಟಿ ನೀಡಿ'
   const handlePageSizeChange = (e) => {
     const selectedSize = e.target.value
     setPageSizeOption(selectedSize)
@@ -81,19 +79,17 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
       setOpenModal(false)
     }
   }
-  const refreshButtonhandle = async () => {
-    setIsLoading(true)
-    try {
-      const wrongwords = await refreshAndGetWrongWords({ quillRef, bloomFilter })
-    } catch (error) {
-      console.error('Error during refresh:', error)
-    } finally {
-      setIsLoading(false)
-    }
+  const spellcheckInfo = async () => {
+    const info = 'spellcheck information not yet Added! please keep visiting official website!'
+    setMessage(info)
+    setInfoModalOpen(true)
   }
 
   const handleVoiceToText = async () => {
     try {
+      const voiceToTextInfo =
+        'ಧ್ವನಿಯಿಂದ ಪಠ್ಯದ ಕಾರ್ಯವು ಇನ್ನೂ ಲಭ್ಯವಿಲ್ಲ. ಇತ್ತೀಚಿನ ನವೀಕರಣಗಳಿಗಾಗಿ ದಯವಿಟ್ಟು ನಮ್ಮ ಅಧಿಕೃತ ವೆಬ್‌ಸೈಟ್‌ಗೆ ಭೇಟಿ ನೀಡಿ'
+      setMessage(voiceToTextInfo)
       //const result = await window.electronAPI.startSpeechRecognition()
       setInfoModalOpen(true)
     } catch (error) {
@@ -304,7 +300,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
         </span>
         <span className="ql-formats">
           <button
-            onClick={refreshButtonhandle}
+            onClick={spellcheckInfo}
             className="ql-Spellcheck-button"
             title={ICON_LABELS_KANNADA.spellcheck}
           >
