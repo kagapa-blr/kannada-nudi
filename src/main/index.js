@@ -69,7 +69,7 @@ function executeBackgroundProcess() {
     const arch = process.arch; // 'x32' or 'x64'
     if (arch === 'ia32' || arch === 'x64') {
 
-      const exePath = join(__dirname, '../../resources/kannadaKeyboard.exe');
+      const exePath = join(__dirname, '../../resources/keyboard/kannadaKeyboard.exe');
       const child = exec(`"${exePath}"`, (error, stdout, stderr) => {
         if (error) {
           console.error(`Error executing .exe: ${error.message}`);

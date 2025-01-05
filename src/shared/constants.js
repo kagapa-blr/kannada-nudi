@@ -7,8 +7,8 @@ export const welcomeNoteFilename = 'kannadaNudi.txt';
 // Determine the environment and set the base resource path
 const isDev = process.env.NODE_ENV === 'development';
 const baseResource = isDev
-  ? '/home/rpawar/kannada-nudi/resources'
-  : '/opt/kannada-nudi/resources/app.asar.unpacked/resources';
+  ? '/home/rpawar/kannada-nudi/resources/dataset'
+  : '/opt/kannada-nudi/resources/app.asar.unpacked/resources/dataset';
 
 // Export paths
 export const bloomCollection = `${baseResource}/collection.txt`;
