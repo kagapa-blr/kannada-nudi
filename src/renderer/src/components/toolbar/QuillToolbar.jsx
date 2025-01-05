@@ -15,12 +15,11 @@ import React, { useState } from 'react'
 import { ICON_LABELS_KANNADA } from '../../constants/formats'
 import { FONT_SIZES, FONTS } from '../../constants/Nudifonts'
 import { PAGE_SIZES } from '../../constants/pageSizes'
-import { refreshAndGetWrongWords } from '../../services/toolbarFunctions'
+import { openFile, refreshAndGetWrongWords } from '../../services/toolbarFunctions'
 import InformationModal from '../utils/InformationModal'
 import LoadingComponent from '../utils/LoadingComponent'
 import CustomSizeDialog from './CustomSizeDialog'
 import SearchModal from './SearchModal'
-
 export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords }) => {
   const [pageSizeOption, setPageSizeOption] = useState('A4')
   const [prevPageSize, setPrevPageSize] = useState('A4')
@@ -99,16 +98,21 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
   }
 
   const handleSpellcheck = async () => {
+    // Force a re-render to show loading immediately
     setIsLoading(true)
 
-    try {
-      const wrongwords = await refreshAndGetWrongWords({ quillRef, bloomFilter })
-      setWrongWords(wrongwords)
-    } catch (error) {
-      console.error('Error during spellcheck:', error)
-    } finally {
-      setIsLoading(false)
-    }
+    // This ensures that the loading state updates first before the async operation begins
+    setTimeout(async () => {
+      try {
+        const wrongwords = await refreshAndGetWrongWords({ quillRef, bloomFilter })
+        setWrongWords(wrongwords) // Update the wrong words state in Editor
+      } catch (error) {
+        console.error('Error during spellcheck:', error)
+      } finally {
+        // Once the async task completes, set loading to false
+        setIsLoading(false)
+      }
+    }, 0) // Running the async logic after the state update
   }
 
   const handleCloseModal = () => {
@@ -142,13 +146,30 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
     }
   }
 
+  const handleFileOpen = async () => {
+    // Set loading state to true immediately
+    setIsLoading(true)
+
+    // Use setTimeout to ensure the loading state is rendered first
+    setTimeout(async () => {
+      try {
+        await openFile() // Perform the file opening operation
+      } catch (error) {
+        console.error('Error opening file:', error)
+      } finally {
+        // Reset loading state to false once the async operation is done
+        setIsLoading(false)
+      }
+    }, 0) // Trigger async operation after state update
+  }
+
   return (
     <>
       {isLoading && <LoadingComponent />}
 
       <div id="toolbar" className="flex flex-wrap gap-4 p-4">
         <span className="ql-formats">
-          <button className="ql-open" title={ICON_LABELS_KANNADA.open}>
+          <button className="ql-open" title={ICON_LABELS_KANNADA.open} onClick={handleFileOpen}>
             <FolderOpenIcon />
           </button>
         </span>

@@ -117,8 +117,6 @@ export const spellcheck = async () => {
 
 export const refreshAndGetWrongWords = async ({ quillRef, bloomFilter }) => {
     try {
-        console.log("refreshAndGetWrongWords called");
-
         const quill = quillRef.current?.getEditor();
         if (!quill) {
             console.error("Quill editor instance not found.");

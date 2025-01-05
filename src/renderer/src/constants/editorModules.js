@@ -2,7 +2,7 @@
 import QuillResizeImage from 'quill-resize-image';
 import { Quill } from 'react-quill-new';
 import { FONT_SIZES, FONTS } from '../constants/Nudifonts.js';
-import { openFile, saveFile, saveFileAs } from '../services/toolbarFunctions.js';
+import { saveFile, saveFileAs } from '../services/toolbarFunctions.js';
 import { PAGE_SIZES } from './pageSizes';
 
 // Register Quill modules and formats
@@ -62,12 +62,8 @@ const handlers = {
             this.quill.format("size", value);
         }
     },
-    open: async function () {
-        try {
-            await openFile();
-        } catch (error) {
-            console.error('Error opening file:', error);
-        }
+    open: function () {
+        console.log('file open defined sepeately in toolbar')
     },
     save: async function () {
         try {
