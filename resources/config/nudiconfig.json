@@ -1,18 +1,12 @@
 {
-  "dev": {
+  "development": {
     "baseResourcePathLinux": "/home/rpawar/kannada-nudi/resources",
     "baseResourcePathMac": "/Users/rpawar/kannada-nudi/resources",
-    "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources",
-    "autoSavingTime": 3000,
-    "welcomeNoteFilename": "kannadaNudi.txt",
-    "fileEncoding": "utf8"
+    "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources"
   },
-  "prod": {
-    "baseResourcePathLinux": "/home/rpawar/kannada-nudi/resources",
+  "production": {
+    "baseResourcePathLinux": "/opt/kannada-nudi/resources/nudiconfig",
     "baseResourcePathMac": "/Users/rpawar/kannada-nudi/resources",
-    "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources",
-    "autoSavingTime": 3000,
-    "welcomeNoteFilename": "kannadaNudi.txt",
-    "fileEncoding": "utf8"
+    "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources"
   }
 }
