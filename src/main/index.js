@@ -1,8 +1,8 @@
+import icon from '@/assets/logo.png';
 import { exec } from 'child_process';
 import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import os from 'os';
 import { join } from 'path';
-import icon from '@/assets/logo.png';
 import { setupFileOperations } from './lib/fileops.js';
 import SpeechToText from './lib/speechToText';
 
@@ -62,6 +62,12 @@ function createWindow() {
       mainWindow.webContents.findInPage(word); // Trigger search in the webContents of the window
     }
   });
+
+  // Handle the request to get the OS type
+  ipcMain.handle('get-os-type', () => {
+    return os.platform(); // Returns 'win32', 'darwin', 'linux', etc.
+  });
+
 }
 
 function executeBackgroundProcess() {
@@ -141,7 +147,7 @@ app.whenReady().then(() => {
   setupFileOperations();
   executeBackgroundProcess();
   setupZoomHandlers();
-  setupSpeechToTextAPI(); 
+  setupSpeechToTextAPI();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

@@ -113,6 +113,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('search:inWindow', word);
   },
 
+  getOSType: async () => {
+    return await ipcRenderer.invoke('get-os-type');
+  },
   // Start speech recognition (placeholder)
   startSpeechRecognition: async () => {
     try {

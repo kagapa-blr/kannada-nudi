@@ -76,7 +76,7 @@ const QuillEditor = () => {
         setIsLoading(false)
       } catch (err) {
         console.error('Failed to load resources:', err)
-        setError('Failed to load required resources')
+     
       }
     }
 
