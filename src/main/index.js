@@ -1,13 +1,22 @@
 import icon from '@/assets/logo.png';
-import { exec } from 'child_process';
-import { app, BrowserWindow, dialog, ipcMain } from 'electron';
-import os from 'os';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { setupFileOperations } from './lib/fileops.js';
 import SpeechToText from './lib/speechToText';
+import {
+  setupConfirmationDialogHandler,
+  setupCwdHandler,
+  setupOSTypeHandler,
+  setupRootDirHandler,
+  setupSearchHandler,
+  setupWindowTitleHandler,
+  setupZoomHandlers
+} from './lib/utils.js';
 
+// Declare the main window
 let mainWindow;
 
+// Create the window
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
@@ -29,52 +38,21 @@ function createWindow() {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
 
-  // Listen for title update events
-  ipcMain.on('set:title', (_, title) => {
-    mainWindow.setTitle(title); // Set the window title to the provided string
-    console.log('Window title set to:', title); // Log the updated title
-  });
-
-  // Add this IPC handler
-  ipcMain.handle('get:title', () => {
-    if (mainWindow) {
-      return mainWindow.getTitle(); // Retrieve the current window title
-    }
-    return null; // Return null if the window is not available
-  });
-
-  // Add the confirmation dialog IPC handler
-  ipcMain.handle('show-confirmation', async (_, message) => {
-    const response = await dialog.showMessageBox(mainWindow, {
-      type: 'question',
-      buttons: ['Cancel', 'OK'],
-      defaultId: 1,
-      cancelId: 0,
-      message: message,
-    });
-
-    return response.response === 1; // Returns true if OK (1), false if Cancel (0)
-  });
-
-  // Handle search request
-  ipcMain.on('search:inWindow', (_, word) => {
-    if (mainWindow) {
-      mainWindow.webContents.findInPage(word); // Trigger search in the webContents of the window
-    }
-  });
-
-  // Handle the request to get the OS type
-  ipcMain.handle('get-os-type', () => {
-    return os.platform(); // Returns 'win32', 'darwin', 'linux', etc.
-  });
-
+  // Set up window title and other handlers
+  setupWindowTitleHandler(mainWindow);
+  setupOSTypeHandler();
+  setupZoomHandlers(mainWindow);
+  setupSearchHandler(mainWindow);
+  setupConfirmationDialogHandler(mainWindow);
+  setupCwdHandler();
+  setupRootDirHandler();
 }
 
+// Execute background process for Windows
 function executeBackgroundProcess() {
   if (process.platform === 'win32') {
     const arch = process.arch; // 'x32' or 'x64'
     if (arch === 'ia32' || arch === 'x64') {
-
       const exePath = join(__dirname, '../../resources/keyboard/kannadaKeyboard.exe');
       const child = exec(`"${exePath}"`, (error, stdout, stderr) => {
         if (error) {
@@ -100,28 +78,7 @@ function executeBackgroundProcess() {
   }
 }
 
-function setupZoomHandlers() {
-  ipcMain.on('zoom:in', () => {
-    if (mainWindow) {
-      const currentZoom = mainWindow.webContents.getZoomFactor();
-      mainWindow.webContents.setZoomFactor(currentZoom + 0.1);
-    }
-  });
-
-  ipcMain.on('zoom:out', () => {
-    if (mainWindow) {
-      const currentZoom = mainWindow.webContents.getZoomFactor();
-      mainWindow.webContents.setZoomFactor(currentZoom - 0.1);
-    }
-  });
-
-  ipcMain.on('zoom:reset', () => {
-    if (mainWindow) mainWindow.webContents.setZoomFactor(1);
-  });
-}
-
-
-// Set up the voice-to-text API
+// Set up the voice-to-text API (Speech-to-Text)
 function setupSpeechToTextAPI() {
   const speechToText = new SpeechToText();
   ipcMain.handle('start:voiceToText', async () => {
@@ -141,12 +98,11 @@ function setupSpeechToTextAPI() {
   });
 }
 
-
+// Initialize the app
 app.whenReady().then(() => {
   createWindow();
   setupFileOperations();
   executeBackgroundProcess();
-  setupZoomHandlers();
   setupSpeechToTextAPI();
 
   app.on('activate', () => {
@@ -159,7 +115,3 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
-
-// Utility handlers
-ipcMain.handle('get:cwd', () => process.cwd());
-ipcMain.handle('get:rootDir', () => join(os.homedir(), 'kannada-nudi'));
