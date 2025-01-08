@@ -1,8 +1,8 @@
-import SymSpell from "node-symspell-new";
+import {SymSpellClient} from "node-symspell-new/client-side.js";
 
 class SymSpellService {
   constructor(maxEditDistance = 2, prefixLength = 7) {
-    this.symSpell = new SymSpell(maxEditDistance, prefixLength);
+    this.symSpell = new SymSpellClient(maxEditDistance, prefixLength);
     this.isLoaded = false; // Track if the dictionary has been loaded
   }
 
