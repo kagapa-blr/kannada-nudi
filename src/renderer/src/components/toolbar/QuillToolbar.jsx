@@ -16,6 +16,7 @@ import { ICON_LABELS_KANNADA } from '../../constants/formats'
 import { FONT_SIZES, FONTS } from '../../constants/Nudifonts'
 import { PAGE_SIZES } from '../../constants/pageSizes'
 import { openFile, refreshAndGetWrongWords } from '../../services/toolbarFunctions'
+import ConfirmationModal from '../utils/ConfirmationModal'
 import InformationModal from '../utils/InformationModal'
 import LoadingComponent from '../utils/LoadingComponent'
 import CustomSizeDialog from './CustomSizeDialog'
@@ -33,6 +34,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
   const [searchWord, setSearchWord] = useState('')
   const [infoModalOpen, setInfoModalOpen] = useState(false)
   const [searchModal, setsearchModal] = useState(false)
+  const [confirmModalOpen, setconfirmModalOpen] = useState(false)
   const openSearchModal = () => setsearchModal(true)
   const closeSearchModal = () => setsearchModal(false)
 
@@ -149,7 +151,37 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
   const handleFileOpen = async () => {
     // Set loading state to true immediately
     setIsLoading(true)
+    try {
+      // Retrieve the window title
+      const windowTitle = await window.electronAPI.getWindowTitle() // Await the promise here
+      console.log('windowTitle', windowTitle)
 
+      // Check if the title is "Untitled"
+      if (windowTitle !== 'Untitled') {
+        setconfirmModalOpen(true) // Open the confirmation modal
+      } else {
+        // Directly open the file if the title is "Untitled"
+        await openFileOperation()
+      }
+    } catch (error) {
+      console.error('Error getting window title:', error)
+      setIsLoading(false) // Reset loading state even if there's an error
+    }
+  }
+
+  const handleConfirm = async () => {
+    console.log('Action confirmed')
+    setconfirmModalOpen(false) // Close the modal
+    await openFileOperation() // Call openFile after confirmation
+  }
+
+  const handleConfirmCancel = () => {
+    console.log('Action canceled')
+    setconfirmModalOpen(false) // Close the modal
+    setIsLoading(false)
+  }
+
+  const openFileOperation = async () => {
     // Use setTimeout to ensure the loading state is rendered first
     setTimeout(async () => {
       try {
@@ -166,7 +198,12 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
   return (
     <>
       {isLoading && <LoadingComponent />}
-
+      <ConfirmationModal
+        open={confirmModalOpen}
+        onClose={handleConfirmCancel}
+        onConfirm={handleConfirm}
+        message="ಹೊಸ ಫೈಲ್ ತೆರೆಯುವ ಮೊದಲು ದಯವಿಟ್ಟು ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಕೆಲಸವನ್ನು ಉಳಿಸಿ. ಹೊಸ ಫೈಲ್ ತೆರೆಯುವುದರಿಂದ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಫೈಲ್ ಅನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮುಚ್ಚಲಾಗುತ್ತದೆ"
+      />
       <div id="toolbar" className="flex flex-wrap gap-4 p-4">
         <span className="ql-formats">
           <button className="ql-open" title={ICON_LABELS_KANNADA.open} onClick={handleFileOpen}>

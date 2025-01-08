@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import ReactQuill from 'react-quill-new'
 import 'react-quill-new/dist/quill.snow.css'
-import { bloomCollection, symspellDict } from '../../../shared/constants'
+import { bloomCollection, symspellDict } from '../../../shared/config.js'
 import Tooltip from '../components/editor/Tooltip'
 import { modules } from '../constants/editorModules'
 import { formats } from '../constants/formats'
@@ -76,7 +76,6 @@ const QuillEditor = () => {
         setIsLoading(false)
       } catch (err) {
         console.error('Failed to load resources:', err)
-     
       }
     }
 
@@ -263,23 +262,22 @@ const QuillEditor = () => {
     setWrongWords(wrongwords.filter((word) => word !== clickedWord))
   }
 
-
   const handleInputClick = (e) => {
     e.target.focus() // Focus the input when clicked
   }
 
   const updateWrongWords = (words) => {
-    setWrongWords(words);  // Update wrong words state in the parent component
-  };
+    setWrongWords(words) // Update wrong words state in the parent component
+  }
 
   return (
     <div className="editor-container">
       <div className="editor-toolbar-container">
-        <QuillToolbar 
-        quillRef={quillRef} 
-        setPageSize={setPageSize} 
-        bloomFilter= {bloomFilter} 
-        setWrongWords={updateWrongWords}
+        <QuillToolbar
+          quillRef={quillRef}
+          setPageSize={setPageSize}
+          bloomFilter={bloomFilter}
+          setWrongWords={updateWrongWords}
         />
       </div>
       <div className="editor-wrapper">
