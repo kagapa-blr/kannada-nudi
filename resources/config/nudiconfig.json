@@ -2,7 +2,8 @@
   "development": {
     "baseResourcePathLinux": "/home/rpawar/kannada-nudi/resources",
     "baseResourcePathMac": "/Users/rpawar/kannada-nudi/resources",
-    "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources"
+    "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources",
+    "nudiKeyboard":"C:\\Users\\rpawar\\kannada-nudi\\resources\\keyboard"
   },
   "production": {
     "baseResourcePathLinux": "/opt/kannada-nudi/resources/nudiconfig",

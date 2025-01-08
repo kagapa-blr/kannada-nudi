@@ -13,6 +13,7 @@ import SymSpellService from '../spellcheck/symspell'
 import Page from './Page'
 import QuillToolbar from './toolbar/QuillToolbar'
 import StartAppLoading from './utils/StartAppLoading'
+import LoadingComponent from './utils/LoadingComponent.jsx'
 const QuillEditor = () => {
   const [content, setContent] = useState('')
   const [pages, setPages] = useState([0])
@@ -30,6 +31,7 @@ const QuillEditor = () => {
   const [isLoading, setIsLoading] = useState(true) // For loading state
   const [bloomFilter, setBloomFilter] = useState(null) // State to store BloomFilter
   const [currentWorkingDir, setCurrentWorkingDir] = useState('')
+  const [isnormalLoading, setIsNormalLoading] = useState(false)
 
   const specialChars = '!@#$%^&*()_+[]{}|;:\',.<>/?~-=\\"'
   const [symSpell, setSymSpell] = useState(null)
@@ -223,23 +225,37 @@ const QuillEditor = () => {
     setClickedWord(null)
   }
 
-  // Function to handle adding a word to the dictionary
   const handleAddToDictionary = async () => {
     if (clickedWord) {
+      setIsLoading
       try {
-        // Wait for the addToDictionary function to complete
-        const isAdded = await addToDictionary(bloomCollection, clickedWord)
-        if (isAdded) {
-          // After successfully adding the word to the dictionary, remove it from the wrongWords list and clear clickedWord
-          ignoreAll({ quillRef, clickedWord })
-          setWrongWords(wrongwords.filter((word) => word !== clickedWord))
-          setClickedWord(null) // Reset clickedWord after successful operation
+        // Optimistic UI update: remove the word from wrongWords and reset clickedWord
+        setWrongWords((prevWrongWords) => prevWrongWords.filter((word) => word !== clickedWord));
+        setClickedWord(null);
+  
+        // Concurrently add to both dictionaries
+        const wordWithFreq = `${clickedWord} 10`; // Example frequency
+        const [isAdded, addtoSymspell] = await Promise.all([
+          addToDictionary(bloomCollection, clickedWord),  // Add to the main dictionary
+          addToDictionary(symspellDict, wordWithFreq),    // Add to symspell dictionary with frequency
+        ]);
+  
+        // If both operations succeeded, update the UI
+        if (isAdded && addtoSymspell) {
+          // Call ignoreAll to mark the word as ignored
+          ignoreAll({ quillRef, clickedWord });
+        } else {
+          // Handle failure if needed (e.g., show error message to user)
+          console.error('Failed to add word to dictionary');
+          setClickedWord(clickedWord);  // Restore clickedWord if needed
         }
       } catch (error) {
-        console.error('Error adding word to dictionary:', error)
+        console.error('Error adding word to dictionary:', error);
+        // Optionally, show an error message to the user
       }
     }
   }
+  
 
   const replaceAll = () => {
     if (clickedWord) {
@@ -272,6 +288,7 @@ const QuillEditor = () => {
 
   return (
     <div className="editor-container">
+       {isnormalLoading && <LoadingComponent />}
       <div className="editor-toolbar-container">
         <QuillToolbar
           quillRef={quillRef}
