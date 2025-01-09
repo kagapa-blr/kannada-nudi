@@ -1,0 +1,956 @@
+
+@font-face {
+    font-family: 'NUDI-00';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-00.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-01';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-01.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-02';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-02.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-03';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-03.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-04';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-04.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-05';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-05.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-06';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-06.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-07';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-07.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-08';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-08.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-09';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-09.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-10';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-10.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-11';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-11.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-12';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-12.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI-diacretic';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI-diacretic.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI00';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI00.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI01';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI01.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI02';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI02.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI03';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI03.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI04';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI04.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI05';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI05.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI06';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI06.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI07';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI07.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI08';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI08.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI10';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI10.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI11';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI11.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI12';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI12.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI14';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI14.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI19E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI19E.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI19K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI19K.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI20E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI20E.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI20K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI20K.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI21E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI21E.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI21K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI21K.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI22E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI22E.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI22K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI22K.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI23E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI23E.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI23K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI23K.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI24E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI24E.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI24K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI24K.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI25E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI25E.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI25K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI25K.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI26E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI26E.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI26K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI26K.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI27E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI27E.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI27K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI27K.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI28E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI28E.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDI28K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDI28K.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIB-00';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIB-00.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIB00';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIB00.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIKVKE';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIKVKE.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIKVKEB';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIKVKEB.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIKVKK';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIKVKK.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIKVKKB';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIKVKKB.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI01E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI01E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI01EBOLD';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI01EBOLD.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI01K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI01K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI02E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI02E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI02K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI02K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI03E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI03E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI03K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI03K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI04E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI04E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI04K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI04K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI06E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI06E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI06K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI06K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI07E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI07E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI07K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI07K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI08E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI08E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI08K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI08K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI09E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI09E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI09K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI09K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI10E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI10E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI10K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI10K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI11E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI11E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI11K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI11K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI12E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI12E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI12K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI12K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI13E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI13E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI13K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI13K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI14E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI14E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI14K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI14K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI15E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI15E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI15K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI15K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI16E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI16E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI16K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI16K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI17E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI17E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI17K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI17K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI18E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI18E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI18K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI18K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI19E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI19E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI19K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI19K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI20E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI20E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNI20K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNI20K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNIananth05E';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNIananth05E.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NUDIUNIananth05K';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NUDIUNIananth05K.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi-diacretic-02';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi-diacretic-02.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi-diacretic-03';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi-diacretic-03.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi01e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi01e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi01eb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi01eb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi01k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi01k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi01kb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi01kb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi02e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi02e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi02eb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi02eb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi02k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi02k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi02kb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi02kb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi03e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi03e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi03eb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi03eb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi03k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi03k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi03kb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi03kb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi04e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi04e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi04eb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi04eb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi04k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi04k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi04kb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi04kb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi05e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi05e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi05eb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi05eb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi05k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi05k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi05kb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi05kb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi06e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi06e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi06eb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi06eb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi06k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi06k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi06kb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi06kb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi07e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi07e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi07eb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi07eb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi07k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi07k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi07kb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi07kb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi08e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi08e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi08eb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi08eb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi08k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi08k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi08kb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi08kb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi09e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi09e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi09k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi09k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi10e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi10e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi10k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi10k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi11e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi11e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi11k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi11k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi12e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi12e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi12k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi12k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi13e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi13e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi13k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi13k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi14e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi14e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi14k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi14k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi15e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi15e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi15k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi15k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi16e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi16e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi16k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi16k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi17e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi17e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi17k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi17k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi18e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi18e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi18k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi18k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiBAkshar-1';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiBAkshar-1.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiBAkshar-2';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiBAkshar-2.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiBAkshara-1';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiBAkshara-1.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiBAkshara-2';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiBAkshara-2.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiParijatha';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiParijatha.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiParijatha_Bold';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiParijatha_Bold.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni01e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni01e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni01ebold';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni01ebold.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni01k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni01k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni02e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni02e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni02k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni02k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni03e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni03e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni03k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni03k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni04e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni04e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni04k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni04k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni05e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni05e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni05k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni05k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni06e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni06e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni06k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni06k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni07e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni07e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni07k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni07k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni08e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni08e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni08k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni08k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni09e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni09e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni09k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni09k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni10e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni10e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'NudiUni10k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/NudiUni10k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi_ISCII';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi_ISCII.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudi_KSCLP';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudi_KSCLP.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudivedice';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudivedice.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudivediceb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudivediceb.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudivedick';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudivedick.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudivedickb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudivedickb.TTF') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudiweb01e';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudiweb01e.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudiweb01eb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudiweb01eb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudiweb01k';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudiweb01k.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Nudiweb01kb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Nudiweb01kb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'Sampige';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/Sampige.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'inchara';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/inchara.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'nudiaksharab';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/nudiaksharab.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'nudiaksharb';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/nudiaksharb.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'nudiaksharb_0';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/nudiaksharb_0.ttf') format('truetype');
+}
+        
+@font-face {
+    font-family: 'nudiaksharb_2';
+    src: url('/home/rpawar/kannada-nudi/src/renderer/src/assets/Nudi_fonts/nudiaksharb_2.ttf') format('truetype');
+}
+        
