@@ -1,15 +1,9 @@
 // src/constants/Nudifonts.js
 
-export const FONT_SIZES = [
-  "extra-small", // Size 1
-  "small",        // Size 2
-  "medium",       // Size 3
-  "large",        // Size 4
-  "huge",         // Size 5
-  "massive",      // Size 6
-];
+export const FONT_SIZES = Array.from({ length: 100 }, (_, index) => `${index + 1}px`);
 
 export const FONTS = [
+  // Custom Fonts
   "NUDI-00",
   "NUDI-01",
   "NUDI-02",
@@ -201,4 +195,22 @@ export const FONTS = [
   "nudiaksharb",
   "nudiaksharb_0",
   "nudiaksharb_2",
+
+  // System Fonts
+  "Arial",
+  "Verdana",
+  "Helvetica",
+  "Tahoma",
+  "Trebuchet MS",
+  "Times New Roman",
+  "Georgia",
+  "Courier New",
+  "Lucida Console",
+  "Segoe UI",
+  "Roboto",
+  "Open Sans",
+  "Lato",
+  "Nunito",
+  "Ubuntu",
+  "Cantarell",
 ];

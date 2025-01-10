@@ -3,11 +3,16 @@
     "baseResourcePathLinux": "/home/rpawar/kannada-nudi/resources",
     "baseResourcePathMac": "/Users/rpawar/kannada-nudi/resources",
     "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources",
-    "nudiKeyboard":"C:\\Users\\rpawar\\kannada-nudi\\resources\\keyboard"
+    "nudiKeyboardWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources\\keyboard",
+    "nudiKeyboardLinux": "/home/rpawar/kannada-nudi/resources/keyboard",
+    "nudiKeyboardMac": "/Users/rpawar/kannada-nudi/resources/keyboard"
   },
   "production": {
     "baseResourcePathLinux": "/opt/kannada-nudi/resources/nudiconfig",
     "baseResourcePathMac": "/Users/rpawar/kannada-nudi/resources",
-    "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources"
+    "baseResourcePathWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources",
+    "nudiKeyboardWindows": "C:\\Users\\rpawar\\kannada-nudi\\resources\\keyboard",
+    "nudiKeyboardLinux": "/opt/kannada-nudi/resources/nudiconfig/keyboard",
+    "nudiKeyboardMac": "/Users/rpawar/kannada-nudi/resources/keyboard"
   }
 }

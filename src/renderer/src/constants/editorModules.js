@@ -8,7 +8,8 @@ import { PAGE_SIZES } from './pageSizes';
 // Register Quill modules and formats
 Quill.register('modules/resize', QuillResizeImage);
 
-const Size = Quill.import('formats/size');
+const Size = Quill.import('attributors/style/size');
+
 Size.whitelist = FONT_SIZES;
 Quill.register(Size, true);
 

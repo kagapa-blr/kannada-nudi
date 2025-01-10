@@ -82,3 +82,23 @@
 .ql-snow .ql-editor {
   @apply border-0 !important;
 }
+
+
+.ql-font.ql-picker.ql-expanded .ql-picker-options {
+  max-height: 200px; /* Set the maximum height */
+  overflow-y: auto;  /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  border: 1px solid #ccc; /* Optional: Add a border */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  background-color: #fff; /* Optional: Background color */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+.ql-size.ql-picker.ql-expanded .ql-picker-options {
+  max-height: 200px; /* Set the maximum height */
+  overflow-y: auto;  /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  border: 1px solid #ccc; /* Optional: Add a border */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  background-color: #fff; /* Background color */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
