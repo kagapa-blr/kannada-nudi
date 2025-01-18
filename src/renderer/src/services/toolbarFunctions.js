@@ -22,6 +22,7 @@ export const openFile = async () => {
 
         // Load the file content into the Quill editor
         const quillEditor = document.querySelector('.ql-editor');
+        //return result.content;
         if (quillEditor) {
             quillEditor.innerHTML = result.content;
         } else {

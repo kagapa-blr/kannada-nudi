@@ -5,6 +5,7 @@ import { bloomCollection, symspellDict } from '../../../shared/config.js'
 import Tooltip from '../components/editor/Tooltip'
 import { modules } from '../constants/editorModules'
 import { formats } from '../constants/formats'
+import { useContent } from '../hooks/ContentProvider'
 import { cleanWord, getWordAtPosition, underlineWordInEditor } from '../services/editorService'
 import { ignoreSingleChars, isSingleCharacter } from '../services/editorUtils'
 import { addToDictionary, ignoreAll, replaceWord } from '../services/toolTipOperations.js'
@@ -12,8 +13,9 @@ import { getWrongWords, loadBloomFilter } from '../spellcheck/bloomFilter'
 import SymSpellService from '../spellcheck/symspell'
 import Page from './Page'
 import QuillToolbar from './toolbar/QuillToolbar'
-import StartAppLoading from './utils/StartAppLoading'
 import LoadingComponent from './utils/LoadingComponent.jsx'
+import StartAppLoading from './utils/StartAppLoading'
+
 const QuillEditor = () => {
   const [content, setContent] = useState('')
   const [pages, setPages] = useState([0])
@@ -35,6 +37,8 @@ const QuillEditor = () => {
 
   const specialChars = '!@#$%^&*()_+[]{}|;:\',.<>/?~-=\\"'
   const [symSpell, setSymSpell] = useState(null)
+
+  const { filecontent } = useContent()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,6 +97,10 @@ const QuillEditor = () => {
       quillRef.current.getEditor().root.setAttribute('spellcheck', 'false')
     }
   }, [])
+  // useEffect(() => {
+  //   setContent(filecontent)
+  //   console.log('filecontent', filecontent)
+  // }, [filecontent])
 
   const handleChange = (value) => {
     setContent(value)
@@ -187,13 +195,16 @@ const QuillEditor = () => {
     }
   }, [wrongwords, mouseDown])
 
+  let addZWNJOnNextBackspace = false // Flag to track if ZWNJ should be added on the next deletion
+
   const handleKeyDown = async (e) => {
+    const quill = quillRef.current.getEditor()
+    const range = quill.getSelection()
+
     if (e.key === ' ') {
       // Debounce logic
       clearTimeout(debounceTimerRef.current)
       debounceTimerRef.current = setTimeout(async () => {
-        const quill = quillRef.current.getEditor()
-        const range = quill.getSelection()
         if (range) {
           const currentText = quill.getText(0, range.index).trim()
           const words = currentText.split(/\s+/)
@@ -215,6 +226,34 @@ const QuillEditor = () => {
           }
         }
       }, 300) // Adjust debounce time as needed
+    } else if (e.key === 'Backspace') {
+      //e.preventDefaut()
+
+      if (range && range.index > 0) {
+        const cursorPosition = range.index
+        const textBeforeCursor = quill.getText(0, cursorPosition)
+        const charBeforeCursor = textBeforeCursor.charAt(cursorPosition - 1)
+        const charCode = charBeforeCursor.charCodeAt(0) // Get the Unicode value
+
+        console.log(`Character to be deleted: ${charBeforeCursor}`)
+       
+        console.log(`Unicode code point: U+${charCode.toString(16).toUpperCase()}`);
+
+        const unicodechar = `U+${charCode.toString(16)}`
+
+        console.log(`Unicode code point: ${unicodechar}`)
+        // Delete the character before the cursor
+        quill.deleteText(cursorPosition - 1, 1)
+      
+        console.log(`Deleted character: ${charBeforeCursor}`)
+
+        // Detect Kannada complex characters like Halanth or dependent vowels
+        if (charBeforeCursor === '್' || unicodechar === 'U+cbe') {
+          // Insert ZWNJ at the current cursor position
+          quill.insertText(cursorPosition+1, '\u200C')
+          console.log(`Inserted ZWNJ (\u200C) at position ${cursorPosition - 1}`)
+        }
+      }
     }
   }
 
@@ -230,32 +269,31 @@ const QuillEditor = () => {
       setIsLoading
       try {
         // Optimistic UI update: remove the word from wrongWords and reset clickedWord
-        setWrongWords((prevWrongWords) => prevWrongWords.filter((word) => word !== clickedWord));
-        setClickedWord(null);
-  
+        setWrongWords((prevWrongWords) => prevWrongWords.filter((word) => word !== clickedWord))
+        setClickedWord(null)
+
         // Concurrently add to both dictionaries
-        const wordWithFreq = `${clickedWord} 10`; // Example frequency
+        const wordWithFreq = `${clickedWord} 10` // Example frequency
         const [isAdded, addtoSymspell] = await Promise.all([
-          addToDictionary(bloomCollection, clickedWord),  // Add to the main dictionary
-          addToDictionary(symspellDict, wordWithFreq),    // Add to symspell dictionary with frequency
-        ]);
-  
+          addToDictionary(bloomCollection, clickedWord), // Add to the main dictionary
+          addToDictionary(symspellDict, wordWithFreq) // Add to symspell dictionary with frequency
+        ])
+
         // If both operations succeeded, update the UI
         if (isAdded && addtoSymspell) {
           // Call ignoreAll to mark the word as ignored
-          ignoreAll({ quillRef, clickedWord });
+          ignoreAll({ quillRef, clickedWord })
         } else {
           // Handle failure if needed (e.g., show error message to user)
-          console.error('Failed to add word to dictionary');
-          setClickedWord(clickedWord);  // Restore clickedWord if needed
+          console.error('Failed to add word to dictionary')
+          setClickedWord(clickedWord) // Restore clickedWord if needed
         }
       } catch (error) {
-        console.error('Error adding word to dictionary:', error);
+        console.error('Error adding word to dictionary:', error)
         // Optionally, show an error message to the user
       }
     }
   }
-  
 
   const replaceAll = () => {
     if (clickedWord) {
@@ -288,7 +326,7 @@ const QuillEditor = () => {
 
   return (
     <div className="editor-container">
-       {isnormalLoading && <LoadingComponent />}
+      {isnormalLoading && <LoadingComponent />}
       <div className="editor-toolbar-container">
         <QuillToolbar
           quillRef={quillRef}

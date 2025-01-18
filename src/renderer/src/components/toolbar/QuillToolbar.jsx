@@ -21,6 +21,9 @@ import InformationModal from '../utils/InformationModal'
 import LoadingComponent from '../utils/LoadingComponent'
 import CustomSizeDialog from './CustomSizeDialog'
 import SearchModal from './SearchModal'
+
+import { useContent } from '../../hooks/ContentProvider'
+
 export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords }) => {
   const [pageSizeOption, setPageSizeOption] = useState('A4')
   const [prevPageSize, setPrevPageSize] = useState('A4')
@@ -40,6 +43,8 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
 
   const handleinfoOpenModal = () => setInfoModalOpen(true)
   const handleinfoCloseModal = () => setInfoModalOpen(false)
+
+  const { setFilecontent } = useContent()
 
   const handlePageSizeChange = (e) => {
     const selectedSize = e.target.value
@@ -185,7 +190,8 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
     // Use setTimeout to ensure the loading state is rendered first
     setTimeout(async () => {
       try {
-        await openFile() // Perform the file opening operation
+        const content = await openFile() // Perform the file opening operation
+        setFilecontent(content)
       } catch (error) {
         console.error('Error opening file:', error)
       } finally {

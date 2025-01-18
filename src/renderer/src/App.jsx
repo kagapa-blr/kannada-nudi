@@ -1,8 +1,11 @@
 import QuillEditor from './components/QuillEditor'
+import { ContentProvider } from './hooks/ContentProvider'
 const App = () => {
   return (
     <>
-      <QuillEditor />
+      <ContentProvider>
+        <QuillEditor />
+      </ContentProvider>
     </>
   )
 }
