@@ -35,7 +35,7 @@ const QuillEditor = () => {
   const [bloomFilter, setBloomFilter] = useState(null) // State to store BloomFilter
   const [currentWorkingDir, setCurrentWorkingDir] = useState('')
   const [isnormalLoading, setIsNormalLoading] = useState(false)
-
+  const [lastPageNumber, SetlastPageNumber] = useState(0)
   const specialChars = '!@#$%^&*()_+[]{}|;:\',.<>/?~-=\\"'
   const [symSpell, setSymSpell] = useState(null)
 
@@ -328,7 +328,12 @@ const QuillEditor = () => {
   const updateWrongWords = (words) => {
     setWrongWords(words) // Update wrong words state in the parent component
   }
-
+  // Call SetlastPageNumber once after the pages array is processed
+  useEffect(() => {
+    if (pages.length > 0) {
+      SetlastPageNumber(pages[pages.length - 1])
+    }
+  }, [pages])
   return (
     <div className="editor-container">
       {isnormalLoading && <LoadingComponent />}
@@ -369,26 +374,24 @@ const QuillEditor = () => {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 flex justify-between items-center p-4 bg-gray-100 z-50">
-  {/* Left: Page Number */}
-  <div className="text-sm text-gray-700">Page 1</div>
-
-  {/* Right: Zoom Slider */}
-  <div className="flex items-center space-x-2">
-    <label htmlFor="zoom" className="text-sm text-gray-700">Zoom:</label>
-    <Slider
-      value={zoom}
-      min={50}
-      max={200}
-      step={10}
-      onChange={handleZoomChange}
-      valueLabelDisplay="auto"
-      valueLabelFormat={(value) => `${value}%`}
-      sx={{ width: 150 }}
-    />
-    <span className="text-sm text-gray-700">{zoom}%</span>
-  </div>
-</div>
-
+        <div className="text-sm text-gray-700">Page {lastPageNumber + 1}</div>
+        <div className="flex items-center space-x-2">
+          <label htmlFor="zoom" className="text-sm text-gray-700">
+            Zoom:
+          </label>
+          <Slider
+            value={zoom}
+            min={50}
+            max={200}
+            step={10}
+            onChange={handleZoomChange}
+            valueLabelDisplay="auto"
+            valueLabelFormat={(value) => `${value}%`}
+            sx={{ width: 150 }}
+          />
+          <span className="text-sm text-gray-700">{zoom}%</span>
+        </div>
+      </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
