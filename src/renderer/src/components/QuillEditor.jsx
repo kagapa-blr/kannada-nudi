@@ -1,3 +1,4 @@
+import { Slider } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import ReactQuill from 'react-quill-new'
 import 'react-quill-new/dist/quill.snow.css'
@@ -15,7 +16,6 @@ import Page from './Page'
 import QuillToolbar from './toolbar/QuillToolbar'
 import LoadingComponent from './utils/LoadingComponent.jsx'
 import StartAppLoading from './utils/StartAppLoading'
-
 const QuillEditor = () => {
   const [content, setContent] = useState('')
   const [pages, setPages] = useState([0])
@@ -23,6 +23,7 @@ const QuillEditor = () => {
   const quillRef = useRef(null)
   const debounceTimerRef = useRef(null)
   const [mouseDown, setMouseDown] = useState(false) // Track if mouse is down
+  const [zoom, setZoom] = useState(100) // Initial zoom level
 
   const [wrongwords, setWrongWords] = useState([])
   const [suggestions, setSuggestions] = useState({})
@@ -104,6 +105,10 @@ const QuillEditor = () => {
 
   const handleChange = (value) => {
     setContent(value)
+  }
+
+  const handleZoomChange = (event, newValue) => {
+    setZoom(newValue)
   }
 
   const paginateContent = () => {
@@ -236,21 +241,21 @@ const QuillEditor = () => {
         const charCode = charBeforeCursor.charCodeAt(0) // Get the Unicode value
 
         console.log(`Character to be deleted: ${charBeforeCursor}`)
-       
-        console.log(`Unicode code point: U+${charCode.toString(16).toUpperCase()}`);
+
+        console.log(`Unicode code point: U+${charCode.toString(16).toUpperCase()}`)
 
         const unicodechar = `U+${charCode.toString(16)}`
 
         console.log(`Unicode code point: ${unicodechar}`)
         // Delete the character before the cursor
         quill.deleteText(cursorPosition - 1, 1)
-      
+
         console.log(`Deleted character: ${charBeforeCursor}`)
 
         // Detect Kannada complex characters like Halanth or dependent vowels
         if (charBeforeCursor === '್' || unicodechar === 'U+cbe') {
           // Insert ZWNJ at the current cursor position
-          quill.insertText(cursorPosition+1, '\u200C')
+          quill.insertText(cursorPosition + 1, '\u200C')
           console.log(`Inserted ZWNJ (\u200C) at position ${cursorPosition - 1}`)
         }
       }
@@ -356,11 +361,34 @@ const QuillEditor = () => {
           formats={formats}
           style={{
             width: `${pageSize.width}px`,
-            minHeight: `${pageSize.height}px`
+            minHeight: `${pageSize.height}px`,
+            zoom: `${zoom}%`
           }}
           className="quill-editor"
         />
       </div>
+
+      <div className="fixed bottom-0 left-0 right-0 flex justify-between items-center p-4 bg-gray-100 z-50">
+  {/* Left: Page Number */}
+  <div className="text-sm text-gray-700">Page 1</div>
+
+  {/* Right: Zoom Slider */}
+  <div className="flex items-center space-x-2">
+    <label htmlFor="zoom" className="text-sm text-gray-700">Zoom:</label>
+    <Slider
+      value={zoom}
+      min={50}
+      max={200}
+      step={10}
+      onChange={handleZoomChange}
+      valueLabelDisplay="auto"
+      valueLabelFormat={(value) => `${value}%`}
+      sx={{ width: 150 }}
+    />
+    <span className="text-sm text-gray-700">{zoom}%</span>
+  </div>
+</div>
+
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
