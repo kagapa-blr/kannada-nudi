@@ -38,30 +38,42 @@ export const openFile = async () => {
 export const saveFile = async (content) => {
     const userConfirmed = await window.electronAPI.showConfirmation('Are you sure you want to save the file?');
     if (!userConfirmed) {
-        console.log('user canclled to save the file');
-        // Proceed with saving the file
-        return
+        console.log('User canceled saving the file.');
+        return;
     }
+
     try {
-        // Check if content is empty, null, or contains only empty HTML elements (like <p><br></p>)
+        // Check if content is empty, null, or contains only empty HTML elements
         if (!content || content.trim() === '' || isContentEmpty(content)) {
             alert('Cannot save an empty file.');
             return; // Early return to avoid saving
         }
+
+        // Utility function to remove HTML tags while preserving basic formatting
+        const removeHtmlTags = (html) => {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+
+            // Extract text content while preserving line breaks
+            return tempDiv.innerText.replace(/\n\s*\n/g, '\n'); // Remove excessive empty lines
+        };
+
+        // Remove HTML tags from the content
+        const plainContent = removeHtmlTags(content);
 
         // Get the current window title to determine the file path
         const title = await window.electronAPI.getWindowTitle();
 
         if (!title || title === 'Untitled') {
             // If no valid title, fallback to "Save As"
-            await saveFileAs(content);
+            await saveFileAs(plainContent);
             return;
         }
 
         const filePath = title;
 
         // Call the Electron API to save the file
-        const result = await window.electronAPI.saveFile(filePath, content);
+        const result = await window.electronAPI.saveFile(filePath, plainContent);
 
         if (!result || result.error) {
             throw new Error(result?.error || 'Unknown error saving file');
@@ -74,6 +86,9 @@ export const saveFile = async (content) => {
         alert('Failed to save file: ' + error.message);
     }
 };
+
+
+
 
 export const saveFileAs = async (content) => {
     try {
