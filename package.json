@@ -25,12 +25,17 @@
     "@mui/icons-material": "^6.3.0",
     "@mui/material": "^6.3.0",
     "bloom-filter-new": "^1.0.2",
+    "docx": "^9.1.1",
     "electron-updater": "^6.1.7",
+    "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "mammoth": "^1.9.0",
     "node-symspell-new": "^0.1.7",
     "quill": "^2.0.3",
     "quill-better-table": "^1.2.10",
     "quill-resize-image": "^1.0.5",
+    "quill-to-word": "^1.3.0",
     "react-quill-new": "^3.3.3"
   },
   "devDependencies": {

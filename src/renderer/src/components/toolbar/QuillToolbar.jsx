@@ -11,18 +11,18 @@ import UndoIcon from '@mui/icons-material/Undo'
 import ZoomInIcon from '@mui/icons-material/ZoomIn'
 import ZoomOutIcon from '@mui/icons-material/ZoomOut'
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ICON_LABELS_KANNADA } from '../../constants/formats'
 import { FONT_SIZES, FONTS } from '../../constants/Nudifonts'
 import { PAGE_SIZES } from '../../constants/pageSizes'
+import { useContent } from '../../hooks/ContentProvider'
 import { openFile, refreshAndGetWrongWords } from '../../services/toolbarFunctions'
 import ConfirmationModal from '../utils/ConfirmationModal'
+import FileSave from '../utils/FileSave'
 import InformationModal from '../utils/InformationModal'
 import LoadingComponent from '../utils/LoadingComponent'
 import CustomSizeDialog from './CustomSizeDialog'
 import SearchModal from './SearchModal'
-
-import { useContent } from '../../hooks/ContentProvider'
 
 export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords }) => {
   const [pageSizeOption, setPageSizeOption] = useState('A4')
@@ -32,19 +32,31 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
   const [sizeOption, setSizeOption] = useState(FONT_SIZES[2])
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [saveContent, setsaveContent] = useState('')
 
   const [zoomLevel, setZoomLevel] = useState(1)
   const [searchWord, setSearchWord] = useState('')
   const [infoModalOpen, setInfoModalOpen] = useState(false)
   const [searchModal, setsearchModal] = useState(false)
   const [confirmModalOpen, setconfirmModalOpen] = useState(false)
+  const [filesaveModalOpen, setfilesaveModalOpen] = useState(false)
+
   const openSearchModal = () => setsearchModal(true)
   const closeSearchModal = () => setsearchModal(false)
 
   const handleinfoOpenModal = () => setInfoModalOpen(true)
   const handleinfoCloseModal = () => setInfoModalOpen(false)
 
+  const handlefilesaveModalClose = () => setfilesaveModalOpen(false)
+  const handlefilesaveModalOpen = () => setfilesaveModalOpen(true)
+
   const { setFilecontent } = useContent()
+
+  useEffect(() => {
+    if (filesaveModalOpen) {
+      const content = getEditorContent()
+    }
+  }, [filesaveModalOpen]) // This effect will run whenever filesaveModalOpen changes
 
   const handlePageSizeChange = (e) => {
     const selectedSize = e.target.value
@@ -201,6 +213,17 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
     }, 0) // Trigger async operation after state update
   }
 
+  const getEditorContent = () => {
+    const editorContent = document.querySelector('.ql-editor').innerHTML
+    if (editorContent) {
+      const data = editorContent
+      setsaveContent(data) 
+    
+      return data 
+    }
+    return '' 
+  }
+
   return (
     <>
       {isLoading && <LoadingComponent />}
@@ -210,6 +233,13 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
         onConfirm={handleConfirm}
         message="ಹೊಸ ಫೈಲ್ ತೆರೆಯುವ ಮೊದಲು ದಯವಿಟ್ಟು ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಕೆಲಸವನ್ನು ಉಳಿಸಿ. ಹೊಸ ಫೈಲ್ ತೆರೆಯುವುದರಿಂದ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಫೈಲ್ ಅನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮುಚ್ಚಲಾಗುತ್ತದೆ"
       />
+
+      <FileSave
+        open={filesaveModalOpen}
+        handleClose={handlefilesaveModalClose}
+        htmlContent={saveContent}
+      />
+
       <div id="toolbar" className="flex flex-wrap gap-4 p-4">
         <span className="ql-formats">
           <button className="ql-open" title={ICON_LABELS_KANNADA.open} onClick={handleFileOpen}>
@@ -222,7 +252,11 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
           </button>
         </span>
         <span className="ql-formats">
-          <button className="ql-saveAs " title={ICON_LABELS_KANNADA.save}>
+          <button
+            className="ql-saveAs "
+            title={ICON_LABELS_KANNADA.save}
+            onClick={handlefilesaveModalOpen}
+          >
             <SaveAsIcon style={{ fontSize: 40 }} />
           </button>
         </span>
