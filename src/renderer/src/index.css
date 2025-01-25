@@ -6,14 +6,18 @@
 
 /* Container for the editor */
 .editor-container {
-  @apply flex flex-col items-center w-full max-w-3xl mx-auto p-5 relative;
+  @apply flex flex-col items-center w-full max-w-4xl mx-auto p-5 relative;
 }
 
 /* Toolbar container with fixed positioning */
 .editor-toolbar-container {
   @apply fixed top-0 left-0 w-full bg-white p-3 z-10 border-b border-gray-200 shadow-md;
+  border-radius: 8px; /* Smooth rounded corners */
 }
 
+body{
+  background-color: #eaeff2;
+}
 /* Main editor wrapper */
 .editor-wrapper {
   @apply w-full flex-1 mt-24 relative;
@@ -62,7 +66,4 @@
   border: none !important; /* Ensure no border on the main container */
 }
 
-.ql-editor {
-  border: none !important; /* Remove the border on the editor area */
-  outline: none !important; /* Remove outline on focus */
-}
+
