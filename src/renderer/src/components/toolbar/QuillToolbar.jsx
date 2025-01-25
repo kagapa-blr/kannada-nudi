@@ -112,7 +112,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
       setInfoModalOpen(true)
     } catch (error) {
       console.error('Error while starting speech recognition:', error)
-      alert(message)
+
     }
   }
 

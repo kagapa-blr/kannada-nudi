@@ -7,17 +7,17 @@ export const addToDictionary = async (filePath, contentToAppend) => {
             // Calling the Electron API to append content to the dictionary file
             const success = await window.electronAPI.appendContent(filePath, contentToAppend + '\n');
             if (!success) {
-                alert('Unable to add word to Dictionary. Please try again!');
+             
                 return false;
             }
             return true; // Successfully added to the dictionary
         } catch (error) {
-            alert('An error occurred while adding the word to the dictionary. Please try again.');
+          
             console.error('Error:', error);
             return false;
         }
     } else {
-        alert('Please provide both the file path and content to append.');
+      
         return false;
     }
 };

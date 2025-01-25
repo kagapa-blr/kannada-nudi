@@ -68,7 +68,7 @@ export const downloadAsDocx = async (htmlContent) => {
     document.body.removeChild(tempDiv);
   } catch (error) {
     console.error("Error generating the Word document:", error);
-    alert("An error occurred while generating the Word document: " + error.message);
+   
   }
 };
 
@@ -125,6 +125,6 @@ export const downloadAsPdf = async (htmlContent) => {
     }, 100);
   } catch (error) {
     console.error("Error downloading as PDF:", error);
-    alert("An error occurred: " + error.message);
+
   }
 };

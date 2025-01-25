@@ -30,7 +30,7 @@ export const openFile = async () => {
         }
     } catch (error) {
         console.error('Error opening file:', error);
-        alert('Failed to open file: ' + error.message);
+
     }
 };
 
@@ -45,7 +45,6 @@ export const saveFile = async (content) => {
     try {
         // Check if content is empty, null, or contains only empty HTML elements
         if (!content || content.trim() === '' || isContentEmpty(content)) {
-            alert('Cannot save an empty file.');
             return; // Early return to avoid saving
         }
 
@@ -80,10 +79,10 @@ export const saveFile = async (content) => {
         }
 
         // Notify the user of the successful save
-        alert('File saved successfully at: ' + filePath);
+
     } catch (error) {
         console.error('Error saving file:', error);
-        alert('Failed to save file: ' + error.message);
+      
     }
 };
 
@@ -94,7 +93,7 @@ export const saveFileAs = async (content) => {
     try {
         // Check if content is empty, null, or contains only empty HTML elements (like <p><br></p>)
         if (!content || content.trim() === '' || isContentEmpty(content)) {
-            alert('Cannot save an empty file.');
+
             return; // Early return to avoid saving
         }
 
@@ -111,10 +110,10 @@ export const saveFileAs = async (content) => {
         window.electronAPI.setWindowTitle(filePath);
 
         // Notify the user of the successful save
-        alert('File saved successfully at: ' + filePath);
+
     } catch (error) {
         console.error('Error saving file as:', error);
-        alert('Failed to save file: ' + error.message);
+
     }
 };
 
