@@ -24,7 +24,8 @@ const QuillEditor = () => {
   const debounceTimerRef = useRef(null)
   const [mouseDown, setMouseDown] = useState(false) // Track if mouse is down
   const [zoom, setZoom] = useState(100) // Initial zoom level
-
+  const pageGap = 24 // Gap between pages
+  const contentMargin = 40 // Margins for content area
   const [wrongwords, setWrongWords] = useState([])
   const [suggestions, setSuggestions] = useState({})
   const [clickedWord, setClickedWord] = useState(null)
@@ -90,10 +91,6 @@ const QuillEditor = () => {
   }, [])
 
   useEffect(() => {
-    paginateContent()
-  }, [content, pageSize])
-
-  useEffect(() => {
     if (quillRef.current) {
       quillRef.current.getEditor().root.setAttribute('spellcheck', 'false')
     }
@@ -110,12 +107,17 @@ const QuillEditor = () => {
   const handleZoomChange = (event, newValue) => {
     setZoom(newValue)
   }
+  // Paginate content whenever content or pageSize changes
+  useEffect(() => {
+    paginateContent()
+  }, [content, pageSize])
 
+  // Paginate content based on content height
   const paginateContent = () => {
     const editor = quillRef?.current?.getEditor()
     const editorContent = editor.root
     const contentHeight = editorContent.scrollHeight
-    const requiredPages = Math.ceil(contentHeight / pageSize.height)
+    const requiredPages = Math.ceil(contentHeight / (pageSize.height - pageGap))
 
     setPages(Array.from({ length: requiredPages }, (_, i) => i))
   }
@@ -353,6 +355,8 @@ const QuillEditor = () => {
               pageIndex={pageIndex}
               isLast={idx === pages.length - 1}
               pageSize={pageSize}
+              pageGap={pageGap}
+              contentMargin={contentMargin}
             />
           ))}
         </div>

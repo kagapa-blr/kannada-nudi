@@ -1,33 +1,48 @@
-export default function Page({ pageIndex, pageSize }) {
+
+export default function Page({ pageIndex, isLast, pageSize, pageGap, contentMargin }) {
   const { width, height } = pageSize;
-  const pageGap = 24; // Adjust this value to set the desired gap between pages
-  const contentMargin = 40; // Add top and bottom margins for better content break
 
   return (
     <div
-      className="absolute left-0 right-0 bg-white shadow-lg border-2 border-gray-300 rounded-lg"
+      className={`absolute left-0 right-0 shadow-md border border-gray-200  bg-white`}
       style={{
-        top: `${pageIndex * (height + pageGap)}px`, // Add spacing between pages
+        top: `${pageIndex * (height + pageGap)}px`, // Add vertical gap between pages
         width: `${width}px`,
         height: `${height}px`,
+        boxShadow: `0 4px 8px rgba(0, 0, 0, 0.1)`, // Subtle shadow for modern feel
       }}
     >
-      {/* Content wrapper with margin for top and bottom spacing */}
+      {/* Page Content Area */}
       <div
-        className="page-content"
+        className={`relative h-full overflow-hidden px-10 py-12`}
         style={{
           marginTop: `${contentMargin}px`,
           marginBottom: `${contentMargin}px`,
-          height: `calc(${height}px - ${contentMargin * 2}px)`, // Adjust content height
-          overflow: 'hidden', // Prevent content overflow
+          height: `calc(${height}px - ${contentMargin * 2}px)`, // Dynamic height adjustment
         }}
       >
-        {/* Your content goes here */}
+        {/* Placeholder for the page content */}
+        <div className="text-gray-600 font-serif text-base tracking-wide">
+          {/* Add your editable content here */}
+        </div>
       </div>
 
-      <div className="absolute bottom-4 right-4 text-sm text-gray-500">
+      {/* Footer with Page Number */}
+      <div className="absolute bottom-4 right-4 text-xs text-gray-500">
         Page {pageIndex + 1}
       </div>
+
+      {/* Non-editable Page Break Area */}
+      {!isLast && (
+        <div
+          className="absolute bottom-0 left-0 w-full"
+          style={{
+            height: `${pageGap}px`, // Visual gap between pages
+            transform: `translateY(50%)`,
+            pointerEvents: 'none', // Prevent interactions with page break
+          }}
+        />
+      )}
     </div>
   );
 }

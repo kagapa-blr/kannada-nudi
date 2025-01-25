@@ -21,22 +21,6 @@
   padding-top: 80px; /* Space for the fixed toolbar */
 }
 
-/* Pages container with scrolling enabled */
-.editor-pages {
-  @apply w-full max-h-[calc(100vh-80px)] overflow-y-auto;
-}
-
-/* Editor styling */
-.quill-editor {
-  @apply w-full bg-white shadow-md mb-5;
-}
-
-/* Remove borders from Quill editor containers */
-.ql-container,
-.ql-editor {
-  @apply border-0 !important;
-}
-
 /* Additional Quill editor styling */
 .ql-editor {
   font-family: 'NudiParijatha', sans-serif; /* Kannada font with fallback */
@@ -45,32 +29,10 @@
   text-align: justify;
   min-height: calc(100vh - 120px); /* Height for content */
   padding: 20px; /* Inner padding */
-  border-radius: 4px; /* Optional: Rounded corners */
-  overflow-wrap: break-word; /* Handle long words */
-  background-color: transparent; /* Transparent background */
-  border: none; /* Remove internal border */
-}
-
-/* Hide empty paragraphs in the editor */
-.ql-editor p:empty {
-  display: none;
-}
-
-/* Separator styling between pages */
-.page-separator {
-  @apply w-full h-[4px] bg-blue-700 my-10;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Page layout and shadow */
-.page,
-.page-shadow {
-  @apply w-full border-4 border-blue-600 bg-white shadow-lg p-5 mb-10 relative;
-}
-
-/* Specialized styling for the page-shadow */
-.page-shadow {
-  @apply shadow-xl; /* Additional shadow intensity */
+  word-wrap: break-word; /* Handle long words */
+  border: none !important; /* Ensure no border */
+  outline: none !important; /* Remove any outline */
+  box-shadow: none !important; /* Remove any box shadow */
 }
 
 /* Custom underline for text */
@@ -78,27 +40,29 @@
   text-decoration: underline 3px solid red;
 }
 
-/* Remove default Quill Snow theme styles */
-.ql-snow .ql-editor {
-  @apply border-0 !important;
-}
-
-
-.ql-font.ql-picker.ql-expanded .ql-picker-options {
+/* Dropdown styles for fonts and sizes */
+.ql-font.ql-picker.ql-expanded .ql-picker-options,
+.ql-size.ql-picker.ql-expanded .ql-picker-options {
   max-height: 200px; /* Set the maximum height */
-  overflow-y: auto;  /* Enable vertical scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
   overflow-x: hidden; /* Prevent horizontal scrolling */
   border: 1px solid #ccc; /* Optional: Add a border */
   border-radius: 4px; /* Optional: Add rounded corners */
   background-color: #fff; /* Optional: Background color */
   z-index: 1000; /* Ensure it appears above other elements */
 }
-.ql-size.ql-picker.ql-expanded .ql-picker-options {
-  max-height: 200px; /* Set the maximum height */
-  overflow-y: auto;  /* Enable vertical scrolling */
-  overflow-x: hidden; /* Prevent horizontal scrolling */
-  border: 1px solid #ccc; /* Optional: Add a border */
-  border-radius: 4px; /* Optional: Add rounded corners */
-  background-color: #fff; /* Background color */
-  z-index: 1000; /* Ensure it appears above other elements */
+
+/* Custom styles to remove border and outline from ReactQuill */
+.quill-editor {
+  border: none !important; /* Remove the border */
+  outline: none !important; /* Remove the outline */
+}
+
+.ql-container.ql-snow {
+  border: none !important; /* Ensure no border on the main container */
+}
+
+.ql-editor {
+  border: none !important; /* Remove the border on the editor area */
+  outline: none !important; /* Remove outline on focus */
 }

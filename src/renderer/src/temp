@@ -1,0 +1,116 @@
+/* src/index.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Container for the editor */
+.editor-container {
+  @apply flex flex-col items-center w-full max-w-3xl mx-auto p-5 relative;
+}
+
+/* Toolbar container with fixed positioning */
+.editor-toolbar-container {
+  @apply fixed top-0 left-0 w-full bg-white p-3 z-10 border-b border-gray-200 shadow-md;
+}
+
+/* Main editor wrapper */
+.editor-wrapper {
+  @apply w-full flex-1 mt-24 relative;
+  min-height: calc(100vh - 80px); /* Ensures enough height for the editor */
+  padding-top: 80px; /* Space for the fixed toolbar */
+}
+
+/* Additional Quill editor styling */
+.ql-editor {
+  font-family: 'NudiParijatha', sans-serif; /* Kannada font with fallback */
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: justify;
+  min-height: calc(100vh - 120px); /* Height for content */
+  padding: 20px; /* Inner padding */
+
+  overflow-wrap: break-word; /* Handle long words */
+
+
+}
+
+
+/* Custom underline for text */
+.ql-redunderline {
+  text-decoration: underline 3px solid red;
+}
+
+
+
+.ql-font.ql-picker.ql-expanded .ql-picker-options {
+  max-height: 200px; /* Set the maximum height */
+  overflow-y: auto;  /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  border: 1px solid #ccc; /* Optional: Add a border */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  background-color: #fff; /* Optional: Background color */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+.ql-size.ql-picker.ql-expanded .ql-picker-options {
+  max-height: 200px; /* Set the maximum height */
+  overflow-y: auto;  /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  border: 1px solid #ccc; /* Optional: Add a border */
+  border-radius: 4px; /* Optional: Add rounded corners */
+  background-color: #fff; /* Background color */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+
+////
+
+
+export default function Page({ pageIndex, isLast, pageSize, pageGap, contentMargin }) {
+    const { width, height } = pageSize;
+  
+    return (
+      <div
+        className={`absolute left-0 right-0 shadow-md border border-gray-200  bg-white`}
+        style={{
+          top: `${pageIndex * (height + pageGap)}px`, // Add vertical gap between pages
+          width: `${width}px`,
+          height: `${height}px`,
+          boxShadow: `0 4px 8px rgba(0, 0, 0, 0.1)`, // Subtle shadow for modern feel
+        }}
+      >
+        {/* Page Content Area */}
+        <div
+          className={`relative h-full overflow-hidden px-10 py-12`}
+          style={{
+            marginTop: `${contentMargin}px`,
+            marginBottom: `${contentMargin}px`,
+            height: `calc(${height}px - ${contentMargin * 2}px)`, // Dynamic height adjustment
+          }}
+        >
+          {/* Placeholder for the page content */}
+          <div className="text-gray-600 font-serif text-base tracking-wide">
+            {/* Add your editable content here */}
+          </div>
+        </div>
+  
+        {/* Footer with Page Number */}
+        <div className="absolute bottom-4 right-4 text-xs text-gray-500">
+          Page {pageIndex + 1}
+        </div>
+  
+        {/* Non-editable Page Break Area */}
+        {!isLast && (
+          <div
+            className="absolute bottom-0 left-0 w-full"
+            style={{
+              height: `${pageGap}px`, // Visual gap between pages
+              transform: `translateY(50%)`,
+              pointerEvents: 'none', // Prevent interactions with page break
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+  
