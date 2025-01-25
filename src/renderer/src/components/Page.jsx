@@ -1,15 +1,15 @@
-
 export default function Page({ pageIndex, isLast, pageSize, pageGap, contentMargin }) {
   const { width, height } = pageSize;
 
   return (
     <div
-      className={`absolute left-0 right-0 shadow-md border border-gray-200  bg-white`}
+      className={`absolute left-0 right-0 shadow-xl border border-gray-300 bg-white rounded-md`}
       style={{
         top: `${pageIndex * (height + pageGap)}px`, // Add vertical gap between pages
         width: `${width}px`,
         height: `${height}px`,
-        boxShadow: `0 4px 8px rgba(0, 0, 0, 0.1)`, // Subtle shadow for modern feel
+        boxShadow: `0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)`, // Word-like subtle shadow
+        borderColor: '#D1D5DB', // Lighter border color for that Word-like feel
       }}
     >
       {/* Page Content Area */}
