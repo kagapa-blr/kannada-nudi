@@ -1,28 +1,31 @@
 // ConfigPathForm.jsx
-import React, { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  TextField,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
+import { Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material'
+import React, { useState } from 'react'
 
 const ConfigPathForm = ({ open, onClose }) => {
-  const [dictionaryPath, setDictionaryPath] = useState("");
-  const [sysmspellPath, setSysmspellPath] = useState("");
-  const [datasetPath, setDatasetPath] = useState("");
+  const [dictionaryPath, setDictionaryPath] = useState('')
+  const [sysmspellPath, setSysmspellPath] = useState('')
+  const [datasetPath, setDatasetPath] = useState('')
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Dictionary Config Path:", dictionaryPath);
-    console.log("Sysmspell Config Path:", sysmspellPath);
-    console.log("Dataset Path:", datasetPath);
-    onClose(); // Close modal after submit
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    // Validate paths before submitting
+    const dictionaryValid = await window.electronAPI.validatePath(dictionaryPath)
+    const sysmspellValid = await window.electronAPI.validatePath(sysmspellPath)
+    const datasetValid = await window.electronAPI.validatePath(datasetPath)
+
+    if (!dictionaryValid || !sysmspellValid || !datasetValid) {
+      console.log('One or more paths are invalid. Please check the input.')
+      return
+    }
+
+    // Proceed with the submit logic if all paths are valid
+    console.log('Dictionary Config Path:', dictionaryPath)
+    console.log('Sysmspell Config Path:', sysmspellPath)
+    console.log('Dataset Path:', datasetPath)
+    onClose() // Close modal after submit
+  }
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -64,7 +67,7 @@ const ConfigPathForm = ({ open, onClose }) => {
         </form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default ConfigPathForm;
+export default ConfigPathForm

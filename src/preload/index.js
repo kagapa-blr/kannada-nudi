@@ -59,6 +59,19 @@ contextBridge.exposeInMainWorld('electronAPI', {
     }
   },
 
+
+  validatePath: async (filePath) => {
+    try {
+      const result = await ipcRenderer.invoke('file:validatePath', filePath);
+      if (result?.error) throw new Error(result.error);
+      return result;
+    } catch (error) {
+      console.error('Error appending content:', error);
+      return { error: 'Failed to append content' };
+    }
+  },
+
+
   // Get the current working directory
   getCwd: async () => {
     try {

@@ -1,7 +1,7 @@
 import { dialog, ipcMain } from 'electron';
 import fs from 'fs';
-import path from 'path';
 import mammoth from 'mammoth';
+import path from 'path';
 
 export function setupFileOperations() {
   // Handle opening a file
@@ -105,6 +105,19 @@ export function setupFileOperations() {
     } catch (error) {
       console.error('Error appending content to file:', error);
       return { error: 'Failed to append content' };
+    }
+  });
+
+
+
+  // Handle validating a file path
+  ipcMain.handle('file:validatePath', async (_, filePath) => {
+    try {
+      const exists = fs.existsSync(filePath);
+      return exists;
+    } catch (error) {
+      console.error('Error validating file path:', error);
+      return false;
     }
   });
 }
