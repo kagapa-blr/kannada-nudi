@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.kagapa.kannada-nudi
 productName: kannada-nudi
 directories:
   buildResources: build
@@ -43,5 +43,5 @@ publish:
 
 # Add this section for extra resources
 extraResources:
-  - from: resources/**
+  - from: resources/
     to: nudiconfig/
