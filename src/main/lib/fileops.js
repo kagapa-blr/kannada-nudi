@@ -1,4 +1,4 @@
-import { dialog, ipcMain } from 'electron';
+import { app, dialog, ipcMain } from 'electron';
 import fs from 'fs';
 import mammoth from 'mammoth';
 import path from 'path';
@@ -108,8 +108,6 @@ export function setupFileOperations() {
     }
   });
 
-
-
   // Handle validating a file path
   ipcMain.handle('file:validatePath', async (_, filePath) => {
     try {
@@ -120,4 +118,43 @@ export function setupFileOperations() {
       return false;
     }
   });
+
+
+
+
+
+}
+
+// Function to create directory and files
+export function createDirectoryAndFiles() {
+  try {
+    const directoryPath = path.join(app.getPath('userData'), 'kannadaNudi');
+    const dictionaryFilePath = path.join(directoryPath, 'dictionary.txt');
+    const symspellFilePath = path.join(directoryPath, 'symspell.txt');
+
+    // Check if directory exists, if not, create it
+    if (!fs.existsSync(directoryPath)) {
+      fs.mkdirSync(directoryPath, { recursive: true });
+      console.log('Directory "kannadaNudi" created at:', directoryPath);
+    } else {
+      console.log('Directory "kannadaNudi" already exists at:', directoryPath); // Log the existing path
+    }
+
+    // Check if dictionary.txt exists, if not, create it
+    if (!fs.existsSync(dictionaryFilePath)) {
+      fs.writeFileSync(dictionaryFilePath, '', 'utf8'); // Create empty file
+      console.log('File "dictionary.txt" created.');
+    }
+
+    // Check if symspell.txt exists, if not, create it
+    if (!fs.existsSync(symspellFilePath)) {
+      fs.writeFileSync(symspellFilePath, '', 'utf8'); // Create empty file
+      console.log('File "symspell.txt" created.');
+    }
+
+    return { success: true, directoryPath };
+  } catch (error) {
+    console.error('Error creating directory and files:', error);
+    return { error: 'Failed to create directory and files' };
+  }
 }

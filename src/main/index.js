@@ -2,7 +2,7 @@ import icon from '@/assets/logo.png';
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { exec } from 'child_process'; // Import exec to run background processes
-import { setupFileOperations } from './lib/fileops.js';
+import { setupFileOperations, createDirectoryAndFiles } from './lib/fileops.js';
 import SpeechToText from './lib/speechToText';
 import {
   setupConfirmationDialogHandler,
@@ -48,6 +48,7 @@ function createWindow() {
   setupConfirmationDialogHandler(mainWindow);
   setupCwdHandler();
   setupRootDirHandler();
+  createDirectoryAndFiles();
 }
 
 // Execute background process for Windows only
@@ -122,10 +123,4 @@ app.whenReady().then(() => {
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
-});
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
 });
