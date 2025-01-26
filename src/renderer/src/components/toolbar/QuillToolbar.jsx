@@ -252,7 +252,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
       <div id="toolbar" className="flex flex-wrap gap-4 p-4">
         <div>
           <span className="settings">
-            <button className="ql-settings" title={'Settings'} onClick={handleOpenConfigForm}>
+            <button title={'Settings'} onClick={handleOpenConfigForm}>
               <SettingsIcon />
             </button>
           </span>
