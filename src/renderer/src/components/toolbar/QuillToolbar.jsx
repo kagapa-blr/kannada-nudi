@@ -5,6 +5,7 @@ import RefreshIcon from '@mui/icons-material/Refresh'
 import SaveIcon from '@mui/icons-material/Save'
 import SaveAsIcon from '@mui/icons-material/SaveAs'
 import ScreenSearchDesktopIcon from '@mui/icons-material/ScreenSearchDesktop'
+import SettingsIcon from '@mui/icons-material/Settings'
 import SettingsVoiceIcon from '@mui/icons-material/SettingsVoice'
 import SpellcheckIcon from '@mui/icons-material/Spellcheck'
 import UndoIcon from '@mui/icons-material/Undo'
@@ -17,6 +18,7 @@ import { FONT_SIZES, FONTS } from '../../constants/Nudifonts'
 import { PAGE_SIZES } from '../../constants/pageSizes'
 import { useContent } from '../../hooks/ContentProvider'
 import { openFile, refreshAndGetWrongWords } from '../../services/toolbarFunctions'
+import ConfigPathForm from '../utils/ConfigPathForm'
 import ConfirmationModal from '../utils/ConfirmationModal'
 import FileSave from '../utils/FileSave'
 import InformationModal from '../utils/InformationModal'
@@ -40,7 +42,7 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
   const [searchModal, setsearchModal] = useState(false)
   const [confirmModalOpen, setconfirmModalOpen] = useState(false)
   const [filesaveModalOpen, setfilesaveModalOpen] = useState(false)
-
+  const [showConfigForm, setShowConfigForm] = useState(false)
   const openSearchModal = () => setsearchModal(true)
   const closeSearchModal = () => setsearchModal(false)
 
@@ -112,7 +114,6 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
       setInfoModalOpen(true)
     } catch (error) {
       console.error('Error while starting speech recognition:', error)
-
     }
   }
 
@@ -217,12 +218,20 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
     const editorContent = document.querySelector('.ql-editor').innerHTML
     if (editorContent) {
       const data = editorContent
-      setsaveContent(data) 
-    
-      return data 
+      setsaveContent(data)
+
+      return data
     }
-    return '' 
+    return ''
   }
+
+  const handleOpenConfigForm = () => {
+    setShowConfigForm(true);
+  };
+
+  const handleCloseConfigForm = () => {
+    setShowConfigForm(false);
+  };
 
   return (
     <>
@@ -241,6 +250,15 @@ export const QuillToolbar = ({ quillRef, setPageSize, bloomFilter, setWrongWords
       />
 
       <div id="toolbar" className="flex flex-wrap gap-4 p-4">
+        <div>
+          <span className="settings">
+            <button className="ql-settings" title={'Settings'} onClick={handleOpenConfigForm}>
+              <SettingsIcon />
+            </button>
+          </span>
+          <ConfigPathForm open={showConfigForm} onClose={handleCloseConfigForm} />
+        </div>
+
         <span className="ql-formats">
           <button className="ql-open" title={ICON_LABELS_KANNADA.open} onClick={handleFileOpen}>
             <FolderOpenIcon />

@@ -53,5 +53,6 @@ export const ICON_LABELS_KANNADA = {
     voiceToText: "ಧ್ವನಿ ಪಠ್ಯ",
     zoomIn: "ಜೂಮ್ ಇನ್",
     zoomOut: "ಜೂಮ್ ಔಟ್",
-    searchWord: "ಪದವನ್ನು ಹುಡುಕಿ"
+    searchWord: "ಪದವನ್ನು ಹುಡುಕಿ",
+    settings:"settings"
 };
