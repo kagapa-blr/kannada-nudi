@@ -16,7 +16,7 @@ Before starting the project, make sure you have `Node.js` and `npm` installed.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/kannada-nudi.git
+   git clone https://github.com/kagapa-blr/kannada-nudi.git
    cd kannada-nudi
    ```
 
