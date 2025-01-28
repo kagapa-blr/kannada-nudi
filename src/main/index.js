@@ -18,7 +18,7 @@ import {
 let mainWindow;
 let backgroundProcess = null; // To store the reference to the background process
 
-// Create the window
+// Create the main application window
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 900,
@@ -51,6 +51,7 @@ function createWindow() {
   createDirectoryAndFiles();
 }
 
+// Execute the background process (for Windows only)
 function executeBackgroundProcess() {
   if (process.platform === 'win32') {
     const arch = process.arch; // 'ia32' or 'x64'
@@ -61,7 +62,11 @@ function executeBackgroundProcess() {
         ? join(__dirname, '../../resources/keyboard/kannadaKeyboard.exe')
         : join(__dirname, './resources/keyboard/kannadaKeyboard.exe');
 
-      const backgroundProcess = exec(`"${exePath}"`, (error, stdout, stderr) => {
+      console.log(`NODE_ENV: ${env}`);
+      console.log(`Platform: ${process.platform}, Architecture: ${arch}`);
+      console.log(`Executable Path: ${exePath}`);
+
+      backgroundProcess = exec(`"${exePath}"`, (error, stdout, stderr) => {
         if (error) {
           console.error(`Error executing .exe: ${error.message}`);
           return;
@@ -89,7 +94,12 @@ function executeBackgroundProcess() {
 app.on('window-all-closed', () => {
   if (backgroundProcess) {
     console.log('Terminating background process...');
-    backgroundProcess.kill(); // Stop the process
+    try {
+      backgroundProcess.kill('SIGTERM'); // Graceful termination
+      console.log('Background process terminated gracefully.');
+    } catch (error) {
+      console.error(`Failed to terminate background process: ${error.message}`);
+    }
   }
 
   if (process.platform !== 'darwin') {
@@ -103,19 +113,27 @@ function setupSpeechToTextAPI() {
   ipcMain.handle('start:voiceToText', async () => {
     if (!speechToText.isSupported) {
       console.error('Speech-to-Text API is not supported in this environment.');
-      return;
+      return { success: false, error: 'Speech-to-Text is not supported.' };
     }
 
     try {
-      // const transcript = await speechToText.startListening();
-      // return { success: true, transcript };
-      console.log('Speech to text will be implemented very soon!');
+      const transcript = await speechToText.startListening();
+      return { success: true, transcript };
     } catch (error) {
       console.error('Error during speech-to-text:', error);
       return { success: false, error: error.message };
     }
   });
 }
+
+// Add global error handling
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
+});
 
 // Initialize the app
 app.whenReady().then(() => {
@@ -126,5 +144,9 @@ app.whenReady().then(() => {
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    if (!backgroundProcess) {
+      console.log('Reinitializing background process...');
+      executeBackgroundProcess();
+    }
   });
 });
