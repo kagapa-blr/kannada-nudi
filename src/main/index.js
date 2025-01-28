@@ -51,13 +51,17 @@ function createWindow() {
   createDirectoryAndFiles();
 }
 
-// Execute background process for Windows only
 function executeBackgroundProcess() {
   if (process.platform === 'win32') {
     const arch = process.arch; // 'ia32' or 'x64'
     if (arch === 'ia32' || arch === 'x64') {
-      const exePath = join(__dirname, '../../resources/keyboard/kannadaKeyboard.exe');
-      backgroundProcess = exec(`"${exePath}"`, (error, stdout, stderr) => {
+      // Determine the path based on the environment
+      const env = process.env.NODE_ENV || 'production'; // Default to 'production'
+      const exePath = env === 'development'
+        ? join(__dirname, '../../resources/keyboard/kannadaKeyboard.exe')
+        : join(__dirname, './resources/keyboard/kannadaKeyboard.exe');
+
+      const backgroundProcess = exec(`"${exePath}"`, (error, stdout, stderr) => {
         if (error) {
           console.error(`Error executing .exe: ${error.message}`);
           return;
